@@ -254,6 +254,51 @@ code.metar { background: none; padding: 0; font-size: 11.5px; white-space: nowra
 .mtab tfoot small { font-weight: 400; color: var(--muted); }
 .sortbtn { background: none; border: 0; padding: 0; font: inherit; font-weight: 700; cursor: pointer; color: var(--ink); }
 .sortbtn:hover { text-decoration: underline; }
+/* grouped station menus */
+.nav-g { position: relative; }
+.nav-g > summary { list-style: none; cursor: pointer; padding: 3px 8px; border-radius: 4px; color: var(--ink); }
+.nav-g > summary::-webkit-details-marker { display: none; }
+.nav-g > summary::after { content: ' ▾'; color: var(--muted); font-size: 11px; }
+.nav-g[open] > summary, .nav-g > summary:hover { background: var(--soft); }
+.nav-g.cur > summary { box-shadow: inset 0 -2px 0 var(--accent); }
+.nav-p { position: absolute; z-index: 30; top: calc(100% + 4px); left: 0; min-width: 220px; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; box-shadow: 0 8px 26px rgba(23,35,43,.16); padding: 8px; display: flex; flex-direction: column; gap: 2px; }
+.nav-p a { color: var(--ink); text-decoration: none; padding: 5px 8px; border-radius: 4px; white-space: nowrap; }
+.nav-p a:hover { background: var(--soft); }
+.nav-p a.on { background: var(--ink); color: #fff; }
+.nav-months { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+.nav-years { display: flex; flex-wrap: wrap; gap: 2px; border-top: 1px solid var(--soft); margin-top: 6px; padding-top: 6px; max-width: 320px; align-items: center; }
+.nav-years a { padding: 3px 6px; }
+.jump { margin-left: 12px; }
+kbd { font: 11px var(--ui); border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; color: var(--muted); background: var(--surface); }
+/* command palette */
+#palette { position: fixed; inset: 0; z-index: 70; background: rgba(23,35,43,.4); display: flex; justify-content: center; align-items: flex-start; padding-top: 12vh; }
+.pal-box { width: min(560px, calc(100% - 24px)); background: var(--surface); border-radius: 10px; box-shadow: 0 18px 50px rgba(23,35,43,.3); overflow: hidden; }
+#palIn { width: 100%; border: 0; border-bottom: 1px solid var(--rule); padding: 14px 16px; font-size: 16px; outline: none; }
+#palList { list-style: none; margin: 0; padding: 6px; max-height: 50vh; overflow: auto; }
+#palList a { display: flex; justify-content: space-between; gap: 12px; padding: 8px 10px; border-radius: 6px; color: var(--ink); text-decoration: none; }
+#palList a.sel, #palList a:hover { background: var(--soft); }
+#palList small { color: var(--muted); }
+#palList li.muted { padding: 10px; font-size: 13px; }
+/* now page */
+.alerts { margin: 8px 0 14px; display: flex; flex-direction: column; gap: 6px; }
+.alert { border: 1px solid #e3b1a8; background: #fbf0ec; border-radius: 6px; padding: 8px 12px; }
+.alert summary { cursor: pointer; }
+.alert p { font: 14px/1.5 var(--text); }
+.fcrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0; border-top: 1px solid var(--rule); margin: 10px 0 18px; }
+.fc { padding: 8px 10px; border-left: 1px solid var(--rule); }
+.fc-d { font-weight: 700; font-size: 13px; }
+.fc-t .hi { color: #c8423b; font-weight: 700; } .fc-t .lo { color: #3a6fb8; font-weight: 700; }
+.fc-x { font-size: 12px; color: var(--muted); }
+.hl-x code.metar { white-space: normal; font-size: 11px; }
+/* storms */
+.chip { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--rule); border-left: 4px solid var(--c); border-radius: 4px; padding: 3px 8px; font-size: 12.5px; background: var(--surface); }
+.evtag { display: inline-block; font-size: 11.5px; padding: 1px 7px; border-radius: 10px; background: color-mix(in srgb, var(--c) 16%, white); color: var(--ink); border: 1px solid color-mix(in srgb, var(--c) 45%, white); white-space: nowrap; }
+.evt td:nth-child(3) { text-align: left; white-space: normal; min-width: 260px; }
+.evhead { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; margin: 4px 0 10px; }
+details.thr summary { cursor: pointer; font-size: 13px; color: var(--blue); }
+/* calendar legend */
+.grad { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin: 6px 0; }
+.grad i { display: block; width: 220px; height: 10px; border-radius: 3px; }
 #toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 8px 16px; border-radius: 6px; font-size: 13px; z-index: 60; }
 
 @media (max-width: 1080px) {
@@ -298,7 +343,7 @@ code.metar { background: none; padding: 0; font-size: 11.5px; white-space: nowra
   <section id="welcome" class="panel" hidden>
     <h1>The climate of one airport weather station, built from its own observations.</h1>
     <p>Enter an ASOS or AWOS station ID, choose the years, and build a report on temperature, clouds, precipitation and snow, sun and moon, humidity, wind, heat index and wind chill, outdoor thermal stress, growing season and solar energy. Hover any chart to read its values; click it to open a table built for that chart, with every year of the record for the date, hour or month you picked.</p>
-    <p>Each station also has a page for every month, a history for every year, month and day (with the raw METARs and 1-minute wind), records and return periods, trends, a data quality review with neighbor comparisons, an event finder, a conditional climatology explorer, and a side-by-side comparison with up to three other stations.</p>
+    <p>Each station opens on a live page that puts the current observation and the NWS forecast in climate context. Behind it are climate pages for the year and each month, histories for every year, month and day (with raw METARs and 1-minute wind), NWS-style climate graphs and monthly tables, records and return periods, a storm catalog, a climate calendar, trends, data quality checks, an event finder, a conditions explorer, a wind resource screening, a construction work-window planner, and side-by-side comparison with up to three other stations. Press / anywhere to jump to a page or date.</p>
     <div class="examples">
       <button type="button" data-example="KPSM"><b>KPSM</b><span>Portsmouth, NH (ASOS)</span></button>
       <button type="button" data-example="KCON"><b>KCON</b><span>Concord, NH (ASOS)</span></button>
@@ -341,6 +386,7 @@ code.metar { background: none; padding: 0; font-size: 11.5px; white-space: nowra
 </dialog>
 
 <aside id="day" class="drawer" hidden aria-label="Day detail"></aside>
+<div id="palette" hidden><div class="pal-box" role="dialog" aria-label="Jump to"><input id="palIn" placeholder="Jump to a page, a date (2024-01-15, Jan 2024), a station, or “compare KBOS”" autocomplete="off" spellcheck="false"><ul id="palList"></ul></div></div>
 <div id="toast" role="status" hidden></div>
 
 <script>
@@ -1243,7 +1289,25 @@ const Data = (() => {
     return JSON.parse(text);
   }
 
-  return { classifyId, loadMetar, createGrid, ingestIEM, ingestDaily, finalize, wxClass, cacheClear, detectProxy, dayIndex, getText,
+  /* ---------- live NWS products: forecast, latest observation, active alerts ---------- */
+  async function fetchNws(meta, signal) {
+    const lat = (+meta.lat).toFixed(4), lon = (+meta.lon).toFixed(4), out = { errors: [] };
+    try {
+      const pts = await getJSON(`https://api.weather.gov/points/${lat},${lon}`, { signal, timeout: 20000, retries: 1 });
+      out.point = pts.properties || {};
+    } catch (e) { if (e.name === 'AbortError') throw e; out.errors.push(`Forecast point: ${e.message}`); }
+    const jobs = [
+      out.point && out.point.forecast ? getJSON(out.point.forecast, { signal, timeout: 20000, retries: 1 }) : Promise.reject(new Error('no forecast for this location')),
+      getJSON(`https://api.weather.gov/stations/${encodeURIComponent(meta.id)}/observations/latest`, { signal, timeout: 20000, retries: 1 }),
+      getJSON(`https://api.weather.gov/alerts/active?point=${lat},${lon}`, { signal, timeout: 20000, retries: 1 })];
+    const [fc, ob, al] = await Promise.allSettled(jobs);
+    out.forecast = fc.status === 'fulfilled' ? (fc.value.properties || {}).periods || [] : null; if (fc.status !== 'fulfilled') out.errors.push(`Forecast: ${fc.reason.message}`);
+    out.obs = ob.status === 'fulfilled' ? ob.value.properties || null : null; if (ob.status !== 'fulfilled') out.errors.push(`Latest observation: ${ob.reason.message}`);
+    out.alerts = al.status === 'fulfilled' ? (al.value.features || []).map((f) => f.properties || {}) : null; if (al.status !== 'fulfilled') out.errors.push(`Alerts: ${al.reason.message}`);
+    return out;
+  }
+
+  return { classifyId, loadMetar, fetchNws, createGrid, ingestIEM, ingestDaily, finalize, wxClass, cacheClear, detectProxy, dayIndex, getText,
     fetchDayReports, fetchOneMinute, fetchNetwork, fetchDaily, fetchHomr, parseTable, parseIemOneMin, parseNceiPg1 };
 })();
 
@@ -2464,6 +2528,253 @@ const Analysis2 = (() => {
   }
 
   return { dailyX, more, records, annualMax, runs, series, periodClimo, quality, eventValue, flightCat, FLIGHT, EXTREME_VARS, SERIES, EVENT_VARS, ymd };
+})();
+
+/* ---------------------------------------------------------------------------
+   Analysis 3: event (storm) catalog, climate odds, calendar values,
+   wind resource assessment and construction work windows.
+   Inputs are the hourly grid and daily arrays; values in °F, mph, inches.
+--------------------------------------------------------------------------- */
+const Analysis3 = (() => {
+  const C = Core, A2 = Analysis2, N = C.NDOY;
+  const has = (s, re) => !!s && re.test(s);
+  const gustAt = (g, h) => { const a = g.G[h], b = g.PK[h]; return isNaN(a) ? b : isNaN(b) ? a : Math.max(a, b); };
+  const slpAt = (g, h) => (isNaN(g.SLP[h]) ? g.A[h] * 33.8639 : g.SLP[h]);
+
+  /* ======================= event catalog ======================= */
+  const EVENT_TYPES = [
+    { key: 'wind', label: 'Windstorm', color: '#46525b', unit: 'S', thr: 45, thrLabel: 'Peak gust at least' },
+    { key: 'snow', label: 'Snowstorm', color: '#2e4a9e', unit: 'P', thr: 4, thrLabel: 'Storm snowfall at least' },
+    { key: 'ice', label: 'Ice storm', color: '#4a78c8', unit: 'h', thr: 3, thrLabel: 'Hours of freezing rain or drizzle at least' },
+    { key: 'rain', label: 'Heavy rain', color: '#2f8a55', unit: 'P', thr: 2, thrLabel: 'Event rainfall at least' },
+    { key: 'heat', label: 'Heat wave', color: '#c8423b', unit: 'T', thr: 90, thrLabel: 'Daily highs at least' },
+    { key: 'cold', label: 'Cold outbreak', color: '#1d2b6e', unit: 'T', thr: 0, thrLabel: 'Daily lows at or below' },
+    { key: 'fog', label: 'Dense fog', color: '#93a0aa', unit: 'h', thr: 4, thrLabel: 'Hours below 1/4 mile at least' }];
+  function events(R, thr = {}) {
+    const key = `_ev_${JSON.stringify(thr)}`; if (R[key]) return R[key];
+    const g = R.grid, D = R.daily, X = A2.dailyX(R), cli = g.cli, out = [], sh = g.precipShift || 0;
+    const T = (k) => (thr[k] != null ? thr[k] : EVENT_TYPES.find((e) => e.key === k).thr);
+    // hourly episodes: cond(h) true, merging gaps of up to maxGap hours
+    const hourly = (cond, maxGap) => {
+      const eps = []; let s = -1, e = -1;
+      for (let h = 0; h < g.nH; h++) {
+        if (cond(h)) { if (s < 0) s = h; else if (h - e > maxGap + 1) { eps.push([s, e]); s = h; } e = h; }
+      }
+      if (s >= 0) eps.push([s, e]);
+      return eps;
+    };
+    const daily = (cond) => { const eps = []; let s = -1; for (let d = 0; d <= g.nDays; d++) { const ok = d < g.nDays && cond(d); if (ok && s < 0) s = d; if (!ok && s >= 0) { eps.push([s, d - 1]); s = -1; } } return eps; };
+    const statsH = (h0, h1) => {
+      let pk = NaN, pkH = h0, ws = NaN, slp = NaN, p = 0, snowH = 0, rainH = 0, tmin = Infinity, tmax = -Infinity, vmin = Infinity, ts = 0, ia = 0;
+      for (let h = h0; h <= h1; h++) {
+        const gg = gustAt(g, h); if (!isNaN(gg) && !(gg <= pk)) { pk = gg; pkH = h; }
+        if (!(g.W[h] <= ws) && !isNaN(g.W[h])) ws = g.W[h];
+        const sp = slpAt(g, h); if (!isNaN(sp) && !(sp >= slp)) slp = sp;
+        const pp = g.P[h + sh]; if (pp > 0) { p += pp; if (g.ptype[h + sh] === 2 || g.ptype[h + sh] === 3) snowH++; else rainH++; }
+        if (g.T[h] < tmin) tmin = g.T[h]; if (g.T[h] > tmax) tmax = g.T[h]; if (g.V[h] < vmin) vmin = g.V[h];
+        if (has(g.wxs[h], /TS/)) ts++; if (g.IA[h] > 0) ia += g.IA[h];
+      }
+      return { peakGust: pk, peakH: pkH, maxWind: ws, minSlp: slp, precip: p, snowH, rainH, tmin: isFinite(tmin) ? tmin : NaN, tmax: isFinite(tmax) ? tmax : NaN, vmin: isFinite(vmin) ? vmin : NaN, thunderH: ts, ice: ia, dirAtPeak: g.D[pkH] };
+    };
+    const push = (type, h0, h1, primary, extra) => out.push({ type, h0, h1, d0: (h0 / 24) | 0, d1: (h1 / 24) | 0, hours: h1 - h0 + 1, primary, ...statsH(h0, h1), ...extra });
+    // windstorms: gusts (or the peak-wind remark) at or above the threshold, or sustained 35 mph or more
+    hourly((h) => gustAt(g, h) >= T('wind') || g.W[h] >= 35, 6).forEach(([a, b]) => { const st = statsH(a, b); push('wind', a, b, isNaN(st.peakGust) ? st.maxWind : Math.max(st.peakGust, st.maxWind)); });
+    // ice storms: freezing rain or drizzle hours, merging gaps of up to 6 hours
+    hourly((h) => has(g.wxs[h], /FZ(RA|DZ)/), 6).forEach(([a, b]) => {
+      let n = 0, liq = 0; for (let h = a; h <= b; h++) if (has(g.wxs[h], /FZ(RA|DZ)/)) { n++; if (g.P[h + sh] > 0) liq += g.P[h + sh]; }
+      const st = statsH(a, b); if (n >= T('ice') || st.ice >= 0.1) push('ice', a, b, n, { fzHours: n, fzLiquid: liq });
+    });
+    // dense fog: visibility at or below 1/4 mile, merging gaps of 1 hour
+    hourly((h) => g.V[h] <= 0.25, 1).forEach(([a, b]) => { let n = 0; for (let h = a; h <= b; h++) if (g.V[h] <= 0.25) n++; if (n >= T('fog')) push('fog', a, b, n, { fogHours: n }); });
+    // snowstorms: consecutive days with snowfall (climate report) or liquid-equivalent snow
+    const snowDay = cli ? (d) => cli.snow[d] >= 0.5 : (d) => D.snow[d] >= 0.05;
+    daily(snowDay).forEach(([a, b]) => {
+      let tot = 0, liq = 0, mx = 0; for (let d = a; d <= b; d++) { const v = cli ? cli.snow[d] : D.snow[d] * 10; tot += v; mx = Math.max(mx, v); liq += cli && !isNaN(cli.precip[d]) ? cli.precip[d] : D.P[d] || 0; }
+      if (tot < T('snow')) return;
+      let depth = NaN; if (cli) for (let d = b; d <= Math.min(g.nDays - 1, b + 2); d++) if (!(cli.depth[d] <= depth)) depth = cli.depth[d];
+      // blizzard check: 3+ consecutive hours with gusts of 35 mph or more and visibility at or below 1/4 mile
+      let run = 0, best = 0; for (let h = a * 24; h < (b + 1) * 24; h++) { if (gustAt(g, h) >= 35 && g.V[h] <= 0.25) { run++; best = Math.max(best, run); } else run = 0; }
+      push('snow', a * 24, b * 24 + 23, tot, { snowTotal: tot, snowMax: mx, liquid: liq, slr: liq >= 0.01 ? tot / liq : NaN, depthAfter: depth, blizzardH: best, estimated: !cli });
+    });
+    // heavy rain: consecutive wet days (0.25 in or more) totalling at least the threshold
+    const P = A2.records(R).precipArr;
+    daily((d) => P[d] >= 0.25).forEach(([a, b]) => {
+      let tot = 0; for (let d = a; d <= b; d++) tot += P[d];
+      if (tot < T('rain')) return;
+      let mx1 = 0; for (let h = a * 24; h < (b + 1) * 24; h++) if (g.P[h + sh] > mx1) mx1 = g.P[h + sh];
+      push('rain', a * 24, b * 24 + 23, tot, { rainTotal: tot, maxHour: mx1 });
+    });
+    // heat waves: 3+ consecutive days with highs at or above the threshold
+    daily((d) => D.Tmax[d] >= T('heat')).filter(([a, b]) => b - a + 1 >= 3).forEach(([a, b]) => {
+      let mx = -Infinity, hi = -Infinity, warmLow = -Infinity, s = 0; for (let d = a; d <= b; d++) { mx = Math.max(mx, D.Tmax[d]); if (isFinite(D.HImax[d])) hi = Math.max(hi, D.HImax[d]); warmLow = Math.max(warmLow, D.Tmin[d]); s += D.Tmax[d]; }
+      push('heat', a * 24, b * 24 + 23, b - a + 1, { days: b - a + 1, maxHigh: mx, maxHI: isFinite(hi) ? hi : NaN, warmestLow: warmLow, meanHigh: s / (b - a + 1) });
+    });
+    // cold outbreaks: 2+ consecutive days with lows at or below the threshold
+    daily((d) => D.Tmin[d] <= T('cold')).filter(([a, b]) => b - a + 1 >= 2).forEach(([a, b]) => {
+      let mn = Infinity, wc = Infinity, coldHigh = Infinity; for (let d = a; d <= b; d++) { mn = Math.min(mn, D.Tmin[d]); if (isFinite(D.WCmin[d])) wc = Math.min(wc, D.WCmin[d]); coldHigh = Math.min(coldHigh, D.Tmax[d]); }
+      push('cold', a * 24, b * 24 + 23, b - a + 1, { days: b - a + 1, minLow: mn, minWC: isFinite(wc) ? wc : NaN, coldestHigh: coldHigh });
+    });
+    // rank within type by severity
+    EVENT_TYPES.forEach((t) => {
+      const ev = out.filter((e) => e.type === t.key), sev = (e) => (t.key === 'heat' ? e.days * 10 + e.maxHigh / 10 : t.key === 'cold' ? e.days * 10 - e.minLow / 10 : e.primary);
+      ev.sort((a, b) => sev(b) - sev(a)).forEach((e, i) => { e.rank = i + 1; e.of = ev.length; e.severity = sev(e); });
+    });
+    out.sort((a, b) => a.h0 - b.h0); out.forEach((e, i) => (e.id = i));
+    return (R[key] = out);
+  }
+
+  /* ======================= climate odds ======================= */
+  /** Cumulative chance by day-of-season that an event has happened, from each year's first (or last) date. */
+  function odds(R) {
+    if (R._odds) return R._odds;
+    const g = R.grid, ru = A2.runs(R), cli = g.cli, lastD = (() => { for (let d = g.nDays - 1; d >= 0; d--) if (!isNaN(R.daily.Tmax[d])) return d; return g.nDays - 1; })();
+    // seasons: cold events from Jul 1, warm events from Jan 1
+    const defs = [
+      { key: 'firstFrz', label: 'First fall freeze', start: 181, cold: true, color: '#1d2b6e' }, { key: 'lastFrz', label: 'Last spring freeze', start: 0, cold: false, color: '#4a78c8', last: true },
+      { key: 'first90', label: 'First 90 °F high', start: 0, cold: false, color: '#c8423b' }, { key: 'firstSnow', label: 'First snowfall', start: 181, cold: true, color: '#2e4a9e' },
+      ...(cli ? [{ key: 'firstCover', label: 'First 1 in of snow cover', start: 181, cold: true, color: '#7c9cc0' }] : [])];
+    const pos = (d, start) => (g.dayDoy[d] - start + N) % N;
+    const res = defs.map((df) => {
+      const yrs = ru.years.filter((r) => r[df.key] !== undefined && !(r.y === g.dayY[lastD] || (df.cold && r.y === g.dayY[lastD] - 1 && g.dayM[lastD] < 6)));
+      const p = yrs.map((r) => (r[df.key] >= 0 ? pos(r[df.key], df.start) : Infinity));
+      const curve = Array.from({ length: N }, (_, k) => (p.length ? p.filter((x) => x <= k).length / p.length : NaN));
+      // this season so far
+      const seasonY = df.cold ? (g.dayM[lastD] >= 6 ? g.dayY[lastD] : g.dayY[lastD] - 1) : g.dayY[lastD];
+      const cur = ru.years.find((r) => r.y === seasonY), happened = cur && cur[df.key] >= 0 && cur[df.key] <= lastD ? cur[df.key] : -1;
+      const today = pos(lastD, df.start);
+      const cond = (k) => { const rest = p.filter((x) => x > today); return rest.length ? rest.filter((x) => x <= k).length / rest.length : NaN; };
+      return { ...df, n: p.length, never: p.filter((x) => !isFinite(x)).length, curve, order: Array.from({ length: N }, (_, k) => (df.start + k) % N), happened, today, cond, seasonY };
+    });
+    // white Christmas: 1 in or more on the ground on December 25
+    let wc = null;
+    if (cli) { const v = []; for (let y = g.y0; y <= g.y1; y++) { const d = Data.dayIndex(g, y, 11, 25); if (d >= 0 && d < g.nDays && !isNaN(cli.depth[d])) v.push({ y, yes: cli.depth[d] >= 1, depth: cli.depth[d] }); } if (v.length >= 5) wc = { n: v.length, yes: v.filter((x) => x.yes).length, years: v }; }
+    return (R._odds = { list: res, whiteXmas: wc, lastD });
+  }
+
+  /* ======================= calendar values ======================= */
+  const CAL_VARS = [
+    { key: 'dep', label: 'Temperature departure', unit: 'dT', div: true }, { key: 'tmax', label: 'Daily high', unit: 'T' }, { key: 'tmin', label: 'Daily low', unit: 'T' },
+    { key: 'precip', label: 'Precipitation', unit: 'P', seq: 'wet' }, { key: 'snow', label: 'Snowfall', unit: 'P', seq: 'snow', cli: true }, { key: 'depth', label: 'Snow depth', unit: 'P', seq: 'snow', cli: true },
+    { key: 'gust', label: 'Peak gust', unit: 'S', seq: 'wind' }, { key: 'wavg', label: 'Average wind', unit: 'S', seq: 'wind' }, { key: 'dew', label: 'Average dew point', unit: 'T' },
+    { key: 'cloud', label: 'Sky cover', unit: '%', seq: 'gray' }, { key: 'utmax', label: 'Highest UTCI (sun)', unit: 'U' }, { key: 'ifr', label: 'Hours at IFR or worse', unit: 'h', seq: 'ifr' },
+    { key: 'thunder', label: 'Hours with thunder', unit: 'h', seq: 'ifr' }];
+  function calendarValues(R, key) {
+    const g = R.grid, D = R.daily;
+    if (key === 'dep') { const t = R.temp; return Float32Array.from(D.Tmax, (v, d) => (v + D.Tmin[d]) / 2 - (t.hi.mean[g.dayDoy[d]] + t.lo.mean[g.dayDoy[d]]) / 2); }
+    return A2.eventValue(R, key);
+  }
+
+  /* ======================= wind resource ======================= */
+  /** Generic normalized power curve: cubic with a soft knee at rated speed, cut-in 3 m/s, cut-out 25 m/s. */
+  function powerCurve(vr) { const vin = 3, n = 6; return (v) => { if (!(v >= vin) || v >= 25) return 0; const pr = (v ** 3 - vin ** 3) / (vr ** 3 - vin ** 3); return Math.pow(Math.pow(pr, -n) + 1, -1 / n); }; }
+  const TURBINES = [{ key: 'low', label: 'Low specific power (IEC III, rated 10 m/s)', vr: 10 }, { key: 'mid', label: 'Medium specific power (IEC II, rated 11.5 m/s)', vr: 11.5 }, { key: 'high', label: 'High specific power (IEC I, rated 13 m/s)', vr: 13 }];
+  function weibullFit(v) {
+    const x = v.filter((a) => a > 0.1); if (x.length < 50) return null;
+    const lx = x.map(Math.log), mlx = lx.reduce((a, b) => a + b, 0) / x.length;
+    let k = 2;
+    for (let it = 0; it < 60; it++) {
+      let s0 = 0, s1 = 0, s2 = 0; for (let i = 0; i < x.length; i++) { const xk = Math.pow(x[i], k); s0 += xk; s1 += xk * lx[i]; s2 += xk * lx[i] * lx[i]; }
+      const f = 1 / k + mlx - s1 / s0, df = -1 / (k * k) - (s2 * s0 - s1 * s1) / (s0 * s0), nk = k - f / df;
+      if (!isFinite(nk) || nk <= 0.2) break; if (Math.abs(nk - k) < 1e-6) { k = nk; break; } k = nk;
+    }
+    let s = 0; for (let i = 0; i < x.length; i++) s += Math.pow(x[i], k);
+    return { k, A: Math.pow(s / x.length, 1 / k), n: x.length };
+  }
+  function windResource(R, o) {
+    const key = `_wr_${JSON.stringify(o)}`; if (R[key]) return R[key];
+    A2.dailyX(R); // makes sure hourly air density exists
+    const g = R.grid, pc = powerCurve(o.vr), f = Math.pow(o.hub / o.anem, o.alpha);
+    const rhoMean = (() => { let s = 0, n = 0; for (let h = 0; h < g.nH; h++) if (!isNaN(g.RHO[h])) { s += g.RHO[h]; n++; } return n ? s / n : 1.225; })();
+    // hub-height air density: ~1.1% lower per 100 m above the anemometer (standard lapse)
+    const rhoHubF = Math.exp(-(o.hub - o.anem) / 8500);
+    const m12 = Array.from({ length: 12 }, () => new Float64Array(24)), n12 = Array.from({ length: 12 }, () => new Float64Array(24));
+    const sp12 = Array.from({ length: 12 }, () => new Float64Array(24));
+    const byYear = new Map(), mon = Array.from({ length: 12 }, () => ({ v: [], cf: 0, n: 0, p3: 0 })), sectors = Array.from({ length: 16 }, () => ({ n: 0, e: 0, v: 0 }));
+    const all = []; let pd10 = 0, pdHub = 0, cfS = 0, n = 0, calm = 0, above25 = 0, below3 = 0;
+    for (let h = 0; h < g.nH; h++) {
+      const w = g.W[h]; if (isNaN(w)) continue;
+      const d = (h / 24) | 0, m = g.dayM[d], k = h % 24, y = g.dayY[d], v10 = w * 0.44704, vh = v10 * f;
+      const rho = isNaN(g.RHO[h]) ? rhoMean : g.RHO[h], rhoH = rho * rhoHubF, va = o.density ? vh * Math.cbrt(rhoH / 1.225) : vh, p = pc(va);
+      all.push(v10); n++; cfS += p; pd10 += 0.5 * rho * v10 ** 3; pdHub += 0.5 * rhoH * vh ** 3; if (v10 < 0.5) calm++; if (vh >= 25) above25++; if (vh < 3) below3++;
+      m12[m][k] += p; n12[m][k]++; sp12[m][k] += vh;
+      const yr = byYear.get(y) || { cf: 0, n: 0, v: 0, hours: 0 }; yr.cf += p; yr.n++; yr.v += vh; byYear.set(y, yr);
+      mon[m].v.push(v10); mon[m].cf += p; mon[m].n++; mon[m].p3 += 0.5 * rho * v10 ** 3;
+      const dir = g.D[h]; if (!isNaN(dir) && w >= 1) { const s = Math.round(dir / 22.5) % 16; sectors[s].n++; sectors[s].e += p; sectors[s].v += vh; }
+    }
+    const wb = weibullFit(all), monthly = mon.map((x) => ({ mean: x.v.length ? x.v.reduce((a, b) => a + b, 0) / x.v.length : NaN, weib: weibullFit(x.v), cf: x.n ? x.cf / x.n : NaN, pd: x.n ? x.p3 / x.n : NaN }));
+    const years = [...byYear.entries()].sort((a, b) => a[0] - b[0]).map(([y2, r]) => { const expected = (C.isLeap(y2) ? 366 : 365) * 24; return { y: y2, cf: r.cf / r.n, v: r.v / r.n, cover: r.n / expected }; });
+    const full = years.filter((r) => r.cover >= 0.85), cfs = full.map((r) => r.cf), mcf = cfs.length ? cfs.reduce((a, b) => a + b, 0) / cfs.length : NaN;
+    const sd = cfs.length > 1 ? Math.sqrt(cfs.reduce((a, b) => a + (b - mcf) ** 2, 0) / (cfs.length - 1)) : NaN;
+    const tot = sectors.reduce((a, s) => a + s.n, 0), etot = sectors.reduce((a, s) => a + s.e, 0);
+    // histogram of 10 m speeds (1 m/s bins)
+    const hist = new Array(26).fill(0); all.forEach((v) => { hist[Math.min(25, Math.floor(v))]++; });
+    return (R[key] = {
+      o, f, n, rhoMean, mean10: all.reduce((a, b) => a + b, 0) / n, meanHub: all.reduce((a, b) => a + b, 0) / n * f, weib: wb, pd10: pd10 / n, pdHub: pdHub / n, cf: cfS / n,
+      calm: calm / n, below3: below3 / n, above25: above25 / n, m12: m12.map((r, m) => Array.from(r, (v, k) => (n12[m][k] ? v / n12[m][k] : NaN))), s12: sp12.map((r, m) => Array.from(r, (v, k) => (n12[m][k] ? v / n12[m][k] : NaN))),
+      monthly, years, cfMean: mcf, cfSd: sd, cov: sd / mcf, nFull: full.length, sectors: sectors.map((s) => ({ freq: tot ? s.n / tot : 0, energy: etot ? s.e / etot : 0, mean: s.n ? s.v / s.n : NaN })),
+      hist: hist.map((c) => c / n), pc });
+  }
+
+  /* ======================= work windows ======================= */
+  const PRESETS = [
+    { key: 'blade', label: 'Blade or rotor lift', height: 100, wind: 20, gust: 27, precip: false, tmin: -4, tmax: 104, vis: 1, ceil: 0, daylight: true, h0: 7, h1: 19, window: 4, lightning: true },
+    { key: 'tower', label: 'Tower section erection', height: 80, wind: 27, gust: 34, precip: false, tmin: -4, tmax: 104, vis: 1, ceil: 0, daylight: true, h0: 7, h1: 19, window: 4, lightning: true },
+    { key: 'pour', label: 'Concrete foundation pour', height: 10, wind: 35, gust: 50, precip: false, tmin: 40, tmax: 90, vis: 0, ceil: 0, daylight: false, h0: 5, h1: 20, window: 8, lightning: true },
+    { key: 'drone', label: 'Drone survey', height: 60, wind: 22, gust: 28, precip: false, tmin: 32, tmax: 100, vis: 3, ceil: 500, daylight: true, h0: 7, h1: 18, window: 2, lightning: true },
+    { key: 'earth', label: 'Earthworks and civil', height: 10, wind: 40, gust: 55, precip: false, tmin: 25, tmax: 100, vis: 0, ceil: 0, daylight: true, h0: 7, h1: 18, window: 6, lightning: true }];
+  const REASONS = ['wind', 'gust', 'precip', 'lightning', 'temp', 'vis', 'ceil'];
+  /** Hour-by-hour workability for criteria c (heights in m, speeds in mph at the work height, temperatures in °F). */
+  function workability(R, c) {
+    const key = `_wk_${JSON.stringify(c)}`; if (R[key]) return R[key];
+    const g = R.grid, sh = g.precipShift || 0, f = Math.pow(Math.max(c.height, 10) / 10, c.alpha), sun = R.sun;
+    const ok = new Int8Array(g.nH).fill(-1), fail = Array.from({ length: 12 }, () => new Float64Array(REASONS.length)), monthHours = new Float64Array(12);
+    for (let h = 0; h < g.nH; h++) {
+      const k = h % 24; if (k < c.h0 || k >= c.h1) continue;
+      const d = (h / 24) | 0, doy = g.dayDoy[d];
+      if (c.daylight && !(sun.elev0[doy * 24 + k] > 0 || sun.elev[doy * 24 + k] > 0)) continue;
+      const w = g.W[h], T = g.T[h]; if (isNaN(w) || isNaN(T)) continue;
+      const m = g.dayM[d]; monthHours[m]++;
+      const gg = gustAt(g, h), p = g.P[h + sh], wx = g.wxs[h];
+      const bad = [w * f > c.wind, !isNaN(gg) && gg * f > c.gust, !c.precip && p > 0.0002, c.lightning && has(wx, /TS/), T < c.tmin || T > c.tmax, c.vis > 0 && g.V[h] < c.vis, c.ceil > 0 && g.ceil[h] < c.ceil];
+      let any = false; bad.forEach((b, i) => { if (b) { fail[m][i]++; any = true; } });
+      ok[h] = any ? 0 : 1;
+    }
+    // per day: longest continuous workable run inside the working hours; workable day if it reaches the window length
+    const longest = new Int8Array(g.nDays), dayOk = new Int8Array(g.nDays).fill(-1), dayHours = new Int8Array(g.nDays);
+    for (let d = 0; d < g.nDays; d++) {
+      let run = 0, best = 0, known = 0, hrs = 0;
+      for (let k = c.h0; k < c.h1; k++) { const v = ok[d * 24 + k]; if (v >= 0) known++; if (v === 1) { run++; hrs++; best = Math.max(best, run); } else run = 0; }
+      longest[d] = best; dayHours[d] = hrs; if (known >= 3) dayOk[d] = best >= c.window ? 1 : 0;
+    }
+    // doy x hour probability (±7 days)
+    const s = new Float64Array(N * 24), cnt = new Float64Array(N * 24);
+    for (let h = 0; h < g.nH; h++) { const v = ok[h]; if (v < 0) continue; const q = g.dayDoy[(h / 24) | 0] * 24 + (h % 24); cnt[q]++; if (v) s[q]++; }
+    const heat = new Float32Array(N * 24).fill(NaN);
+    for (let i = 0; i < N; i++) for (let k = 0; k < 24; k++) { let a = 0, b = 0; for (let j = -7; j <= 7; j++) { const q = ((i + j + N) % N) * 24 + k; a += s[q]; b += cnt[q]; } if (b) heat[i * 24 + k] = a / b; }
+    // monthly workable days per year
+    const byYM = {};
+    for (let d = 0; d < g.nDays; d++) { const k2 = g.dayY[d] * 12 + g.dayM[d], o = byYM[k2] || (byYM[k2] = { y: g.dayY[d], m: g.dayM[d], ok: 0, known: 0, days: 0, hrs: 0 }); o.days++; if (dayOk[d] >= 0) { o.known++; o.ok += dayOk[d]; o.hrs += dayHours[d]; } }
+    const monthly = Array.from({ length: 12 }, (_, m) => {
+      const v = Object.values(byYM).filter((o) => o.m === m && o.known >= 0.8 * o.days).map((o) => ({ y: o.y, days: o.ok * o.days / o.known, hrs: o.hrs / o.known }));
+      const sd2 = Float64Array.from(v.map((x) => x.days)).sort(), q = (p) => (sd2.length ? C.quantileSorted(sd2, p) : NaN);
+      return { years: v, p10: q(0.1), p50: q(0.5), p90: q(0.9), mean: v.length ? v.reduce((a, b) => a + b.days, 0) / v.length : NaN, hrs: v.length ? v.reduce((a, b) => a + b.hrs, 0) / v.length : NaN, fail: Array.from(fail[m], (x) => (monthHours[m] ? x / monthHours[m] : NaN)) };
+    });
+    return (R[key] = { c, f, ok, dayOk, longest, heat, monthly });
+  }
+  /** Replay each historical year: how many calendar days to reach `need` workable days starting on month m, day d. */
+  function schedule(R, wk, m, dd, need) {
+    const g = R.grid, runs = [];
+    for (let y = g.y0; y <= g.y1; y++) {
+      const d0 = Data.dayIndex(g, y, m, dd); if (d0 < 0 || d0 >= g.nDays) continue;
+      let got = 0, d = d0, path = [], unknown = 0;
+      while (d < g.nDays && got < need && d - d0 < 366) { const v = wk.dayOk[d]; if (v < 0) unknown++; if (v === 1) got++; path.push(got); d++; }
+      if (got >= need && unknown <= 0.15 * (d - d0)) runs.push({ y, days: d - d0, end: d - 1, path });
+    }
+    const sd2 = Float64Array.from(runs.map((r) => r.days)).sort(), q = (p) => (sd2.length ? C.quantileSorted(sd2, p) : NaN);
+    return { runs, p50: q(0.5), p80: q(0.8), p90: q(0.9), min: sd2[0], max: sd2[sd2.length - 1] };
+  }
+
+  return { EVENT_TYPES, events, odds, CAL_VARS, calendarValues, TURBINES, powerCurve, weibullFit, windResource, PRESETS, REASONS, workability, schedule, gustAt, slpAt };
 })();
 
 /* ---------------------------------------------------------------------------
@@ -4066,7 +4377,7 @@ const Charts2 = (() => {
   const dayLabels = (g, days) => days.map((d) => `${C.MON[g.dayM[d]]} ${g.dayD[d]}`);
   function cliAxis(g, days) {
     const n = days.length, lab = dayLabels(g, days);
-    const show = (i) => { const dd = g.dayD[days[i]]; return n > 70 ? dd === 15 : n > 35 ? dd === 1 || dd % 5 === 0 : true; };
+    const show = (i) => { const dd = g.dayD[days[i]]; return n > 70 ? dd === 15 : n > 35 ? dd === 1 || dd % 5 === 0 : n > 16 ? i % 3 === 0 : true; };
     return { type: 'category', data: lab, boundaryGap: true, axisLine: { lineStyle: { color: RULE } },
       axisTick: { interval: (i) => (n > 70 ? g.dayD[days[i]] === 1 : true), length: 4, lineStyle: { color: RULE } },
       axisLabel: { color: MUTED, fontSize: 10, interval: show, formatter: (v) => (n > 70 ? v.split(' ')[0] : v) },
@@ -4166,6 +4477,241 @@ const Charts2 = (() => {
     histDayTemp, histDayWind, histDayPressure, histDaySky, recordsDaily, returnPlot, firstLast, seriesChart, stripes, periodCompare, normalsCompare,
     coverageVar, reportingByYear, windIndexHeat, annualIndex, snhtChart, neighborChart, countsBar, condRose, histogram, monthHourHeat, oneMinScatter, binnedLine,
     compareDoy, compareMonthly, compareAnnual, cliTemp, cliDeparture, cliCumulative, cliAccum, tableColumn, depColor, STATION_COLORS, COV_VARS, fmtU, cvU, unitLabel, dewClimo };
+})();
+
+/* ---------------------------------------------------------------------------
+   Charts for the Now, Storms, Calendar, Wind resource and Work windows pages.
+--------------------------------------------------------------------------- */
+const Charts3 = (() => {
+  const C = Core, N = C.NDOY, H = Charts.H, A3 = Analysis3;
+  const { base, valAxis, band, line, tip, alpha, mix, r1, pct, dataIdx, MUTED, RULE, GRIDLINE, INK, HI, LO } = H;
+  const tipBase = () => base().tooltip;
+  const hourLabels = Array.from({ length: 24 }, (_, k) => C.fClock(k).replace(':00', ''));
+  const monthAxis = () => ({ type: 'category', data: C.MON, axisLine: { lineStyle: { color: RULE } }, axisTick: { show: false }, axisLabel: { color: MUTED, fontSize: 11 } });
+
+  /* ---------- Now: forecast in climate context ---------- */
+  function forecastContext(F) {
+    const cv = (v) => (v == null || isNaN(v) ? null : r1(C.cT(v), 1)), x = F.days.map((d) => d.label);
+    const se = [...band('h', F.days.map((d) => cv(d.hiP10)), F.days.map((d) => cv(d.hiP90)), HI, 'Usual range of highs', 0.12),
+      ...band('l', F.days.map((d) => cv(d.loP10)), F.days.map((d) => cv(d.loP90)), LO, 'Usual range of lows', 0.12),
+      line('Average high', F.days.map((d) => cv(d.hiMean)), alpha(HI, 0.55), { lineStyle: { width: 1, type: [5, 3], color: alpha(HI, 0.7) } }),
+      line('Average low', F.days.map((d) => cv(d.loMean)), alpha(LO, 0.55), { lineStyle: { width: 1, type: [5, 3], color: alpha(LO, 0.7) } }),
+      line('Record high', F.days.map((d) => cv(d.recHi)), alpha(HI, 0.5), { lineStyle: { width: 1, type: [2, 2], color: alpha(HI, 0.6) } }),
+      line('Record low', F.days.map((d) => cv(d.recLo)), alpha(LO, 0.5), { lineStyle: { width: 1, type: [2, 2], color: alpha(LO, 0.6) } }),
+      line('Forecast high', F.days.map((d) => cv(d.fHi)), HI, { symbol: 'circle', symbolSize: 10, z: 8, label: { show: true, position: 'top', color: HI, fontSize: 11, fontWeight: 700, formatter: (p) => (p.value == null ? '' : `${Math.round(p.value)}°`) } }),
+      line('Forecast low', F.days.map((d) => cv(d.fLo)), LO, { symbol: 'circle', symbolSize: 10, z: 8, label: { show: true, position: 'bottom', color: LO, fontSize: 11, fontWeight: 700, formatter: (p) => (p.value == null ? '' : `${Math.round(p.value)}°`) } })];
+    const option = base({ xAxis: { type: 'category', data: x, boundaryGap: true, axisLine: { lineStyle: { color: RULE } }, axisLabel: { color: INK, fontSize: 11, interval: 0 } },
+      yAxis: valAxis({ scale: true, axisLabel: { color: MUTED, fontSize: 11, formatter: `{value}${C.tU()}` } }), series: se,
+      legend: Object.assign(base().legend, { data: ['Forecast high', 'Forecast low', 'Average high', 'Average low', 'Record high', 'Record low'] }),
+      tooltip: Object.assign(tipBase(), { formatter: (ps) => {
+        const d = F.days[dataIdx(ps)], pr = (p) => (p == null ? '' : ` (${ordinalPct(p)} percentile)`);
+        return tip.head(d.long) + (d.fHi != null ? tip.row(HI, 'Forecast high', `${C.fT(d.fHi)}${pr(d.hiPct)}`) : '') + (d.fLo != null ? tip.row(LO, 'Forecast low', `${C.fT(d.fLo)}${pr(d.loPct)}`) : '')
+          + tip.note(`Average ${C.fT(d.hiMean)} / ${C.fT(d.loMean)}; records ${C.fT(d.recHi)} (${d.recHiY}) / ${C.fT(d.recLo)} (${d.recLoY})`) + (d.text ? tip.note(d.text) : '');
+      } }) });
+    return { option, table: { cols: ['Day', 'Forecast high', 'High percentile', 'Forecast low', 'Low percentile', 'Average high', 'Average low', 'Record high', 'Record low', 'Forecast'],
+      rows: F.days.map((d) => [d.long, cv(d.fHi), d.hiPct, cv(d.fLo), d.loPct, cv(d.hiMean), cv(d.loMean), cv(d.recHi), cv(d.recLo), d.text || '']) }, height: 360 };
+  }
+  const ordinalPct = (p) => { const n = Math.round(p), s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); };
+  /* ---------- climate odds ---------- */
+  function oddsChart(O, which) {
+    const list = O.list.filter((x) => which.includes(x.key)), first = list[0];
+    const se = list.map((x) => line(x.label, x.order.map((_, k) => r1(x.curve[k] * 100, 1)), x.color, { lineStyle: { width: 2.2, color: x.color } }));
+    if (se[0]) se[0].markLine = { symbol: 'none', silent: true, data: [{ xAxis: first.today, lineStyle: { color: '#9c2a6e', type: [4, 3] }, label: { formatter: 'Today', color: '#9c2a6e', fontSize: 10, position: 'insideEndTop' } }] };
+    const labels = first.order.map((i) => C.DOY_LABELS[i]);
+    const option = base({ xAxis: { type: 'category', data: labels, boundaryGap: false, axisLine: { lineStyle: { color: RULE } }, axisLabel: { color: MUTED, fontSize: 11, interval: (i) => C.domOfDoy(first.order[i]) === 15, formatter: (v) => v.split(' ')[0] }, splitLine: { show: true, interval: (i) => C.domOfDoy(first.order[i]) === 1, lineStyle: { color: GRIDLINE } } },
+      yAxis: valAxis({ min: 0, max: 100, axisLabel: { color: MUTED, fontSize: 11, formatter: '{value}%' } }), series: se,
+      tooltip: Object.assign(tipBase(), { formatter: (ps) => { const k = dataIdx(ps); return tip.head(`By ${C.doyLong(first.order[k])}`) + ps.map((p) => tip.row(p.color, p.seriesName, `${p.value}% of years`)).join(''); } }) });
+    return { option, table: { cols: ['Date', ...list.map((x) => `${x.label}: share of years by this date (%)`)], rows: first.order.map((i, k) => [C.DOY_LABELS[i], ...list.map((x) => r1(x.curve[k] * 100, 1))]) }, height: 300 };
+  }
+
+  /* ---------- events ---------- */
+  function eventsByYear(evs, years) {
+    const T = A3.EVENT_TYPES, se = T.map((t) => ({ name: t.label, type: 'bar', stack: 'e', itemStyle: { color: t.color }, data: years.map((y) => evs.filter((e) => e.type === t.key && e.y === y).length) }));
+    const option = base({ xAxis: { type: 'category', data: years.map(String), axisLabel: { color: MUTED, fontSize: 10 }, axisLine: { lineStyle: { color: RULE } } }, yAxis: valAxis({ min: 0, minInterval: 1 }), series: se,
+      tooltip: Object.assign(tipBase(), { axisPointer: { type: 'shadow' }, formatter: (ps) => tip.head(String(years[dataIdx(ps)])) + ps.filter((p) => p.value).map((p) => tip.row(p.color, p.seriesName, p.value)).join('') }) });
+    return { option, table: { cols: ['Year', ...T.map((t) => t.label)], rows: years.map((y, k) => [String(y), ...se.map((s) => s.data[k])]) }, height: 280 };
+  }
+  function eventsByMonth(evs, nYears) {
+    const T = A3.EVENT_TYPES, se = T.map((t) => ({ name: t.label, type: 'bar', stack: 'e', itemStyle: { color: t.color }, data: C.MON.map((_, m) => r1(evs.filter((e) => e.type === t.key && e.m === m).length / nYears, 2)) }));
+    const option = base({ xAxis: monthAxis(), yAxis: valAxis({ min: 0 }), series: se, legend: { show: false },
+      tooltip: Object.assign(tipBase(), { axisPointer: { type: 'shadow' }, formatter: (ps) => tip.head(C.MONTHS[dataIdx(ps)]) + ps.filter((p) => p.value).map((p) => tip.row(p.color, p.seriesName, `${p.value} per year`)).join('') }) });
+    return { option, table: { cols: ['Month', ...T.map((t) => `${t.label} (per year)`)], rows: C.MONTHS.map((m, k) => [m, ...se.map((s) => s.data[k])]) }, height: 260 };
+  }
+  /** Multi-panel meteogram for an hour range: temperature, wind, pressure, precipitation and visibility. */
+  function meteogram(R, h0, h1, hl0, hl1) {
+    const g = R.grid, sh = g.precipShift || 0, xs = [], T = [], Td = [], W = [], G = [], P = [], S = [], V = [], DIR = [];
+    for (let h = h0; h <= h1; h++) {
+      const x = h - h0; xs.push(x);
+      T.push([x, isNaN(g.T[h]) ? null : r1(C.cT(g.T[h]), 1)]); Td.push([x, isNaN(g.Td[h]) ? null : r1(C.cT(g.Td[h]), 1)]);
+      W.push([x, isNaN(g.W[h]) ? null : r1(C.cS(g.W[h]), 1)]); const gg = A3.gustAt(g, h); if (!isNaN(gg)) G.push([x, r1(C.cS(gg), 0)]);
+      const sp = A3.slpAt(g, h); S.push([x, isNaN(sp) ? null : r1(sp, 1)]); V.push([x, isNaN(g.V[h]) ? null : Math.min(10, g.V[h])]);
+      const p = g.P[h + sh]; if (p > 0.0002) P.push({ value: [x + 0.5, r1(C.cP(p), 3)], itemStyle: { color: { 1: '#3c78c3', 2: '#9fc3e0', 3: '#6e5fb0' }[g.ptype[h + sh]] || '#3c78c3' } });
+      if (!isNaN(g.D[h]) && g.W[h] >= 1 && (h - h0) % Math.max(1, Math.round((h1 - h0) / 60)) === 0) DIR.push({ value: [x, r1(C.cS(g.W[h]), 1)], symbolRotate: 180 - g.D[h] });
+    }
+    const n = h1 - h0 + 1, step = n > 24 * 6 ? 24 : n > 48 ? 12 : 6;
+    const lab = (v) => { const h = h0 + v, d = (h / 24) | 0, k = h % 24; return k === 0 ? `${C.MON[g.dayM[d]]} ${g.dayD[d]}` : C.fClock(k).replace(':00', ''); };
+    const ax = (gi, show) => ({ type: 'value', gridIndex: gi, min: 0, max: n - 1, interval: step, axisLine: { lineStyle: { color: RULE } }, axisTick: { show: false }, axisLabel: { show, color: MUTED, fontSize: 10, formatter: lab }, splitLine: { show: true, lineStyle: { color: GRIDLINE } } });
+    const shade = hl0 != null ? { silent: true, data: [[{ xAxis: hl0 - h0, itemStyle: { color: alpha('#9c2a6e', 0.06) } }, { xAxis: hl1 - h0 }]] } : undefined;
+    const grids = [{ left: 64, right: 54, top: 30, height: 120 }, { left: 64, right: 54, top: 172, height: 100 }, { left: 64, right: 54, top: 294, height: 70 }, { left: 64, right: 54, top: 386, height: 80 }];
+    const yName = (gi, name, o = {}) => valAxis(Object.assign({ gridIndex: gi, name, nameLocation: 'middle', nameGap: 46, nameTextStyle: { color: MUTED, fontSize: 11 }, axisLabel: { color: MUTED, fontSize: 10 } }, o));
+    const option = base({ grid: grids, xAxis: [ax(0, false), ax(1, false), ax(2, false), ax(3, true)], axisPointer: { link: [{ xAxisIndex: 'all' }] },
+      yAxis: [yName(0, C.tU(), { scale: true }), yName(1, C.sU(), { min: 0 }), yName(2, 'mb', { scale: true }), yName(3, C.pU(), { min: 0 }), valAxis({ gridIndex: 3, min: 0, max: 10, position: 'right', splitLine: { show: false }, axisLabel: { color: MUTED, fontSize: 10, formatter: '{value} mi' } })],
+      legend: Object.assign(base().legend, { data: ['Temperature', 'Dew point', 'Wind', 'Gust', 'Sea-level pressure', 'Precipitation', 'Visibility'] }),
+      series: [line('Temperature', T, '#c8423b', { xAxisIndex: 0, yAxisIndex: 0, connectNulls: false, markArea: shade }), line('Dew point', Td, '#2b8378', { xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1.4, color: '#2b8378' }, connectNulls: false }),
+        line('Wind', W, '#2f6db3', { xAxisIndex: 1, yAxisIndex: 1, lineStyle: { width: 1.4, color: '#2f6db3' }, connectNulls: false, markArea: shade }),
+        { name: 'Gust', type: 'scatter', xAxisIndex: 1, yAxisIndex: 1, data: G, symbolSize: 5, itemStyle: { color: '#c8423b' } },
+        { name: 'Direction', type: 'scatter', xAxisIndex: 1, yAxisIndex: 1, data: DIR, symbol: 'path://M0,-10 L4,4 L0,1 L-4,4 Z', symbolSize: 9, itemStyle: { color: alpha('#17232b', 0.7) }, tooltip: { show: false } },
+        line('Sea-level pressure', S, '#4a3f85', { xAxisIndex: 2, yAxisIndex: 2, lineStyle: { width: 1.6, color: '#4a3f85' }, connectNulls: false, markArea: shade }),
+        { name: 'Precipitation', type: 'bar', xAxisIndex: 3, yAxisIndex: 3, data: P, barWidth: Math.max(2, 600 / n), markArea: shade },
+        line('Visibility', V, '#93a0aa', { xAxisIndex: 3, yAxisIndex: 4, lineStyle: { width: 1, color: '#93a0aa' }, areaStyle: { color: alpha('#93a0aa', 0.12) }, connectNulls: false })],
+      tooltip: Object.assign(tipBase(), { trigger: 'axis', formatter: (ps) => {
+        const x = Math.round(ps[0].axisValue != null ? ps[0].axisValue : ps[0].value[0]), h = h0 + x, d = (h / 24) | 0, gg = A3.gustAt(g, h), sp = A3.slpAt(g, h);
+        return tip.head(`${C.MONTHS[g.dayM[d]]} ${g.dayD[d]}, ${g.dayY[d]}, ${C.fClock(h % 24)}`) + tip.row('#c8423b', 'Temperature', C.fT(g.T[h])) + tip.row('#2b8378', 'Dew point', C.fT(g.Td[h]))
+          + tip.row('#2f6db3', 'Wind', `${C.fS(g.W[h])}${isNaN(g.D[h]) ? '' : ` from ${C.compass16(g.D[h])}`}`) + tip.row('#c8423b', 'Gust', C.fS(gg, 0)) + tip.row('#4a3f85', 'Sea-level pressure', isNaN(sp) ? '–' : `${sp.toFixed(1)} mb`)
+          + tip.row('#3c78c3', 'Precipitation', C.fP(g.P[h + sh], 2)) + tip.row('#93a0aa', 'Visibility', isNaN(g.V[h]) ? '–' : `${g.V[h]} mi`) + (g.wxs[h] ? tip.note(g.wxs[h]) : '') + tip.note('Click to open this day');
+      } }) });
+    const rows = []; for (let h = h0; h <= h1; h++) { const d = (h / 24) | 0; rows.push([`${Analysis2.ymd(g, d)} ${String(h % 24).padStart(2, '0')}:00`, r1(C.cT(g.T[h]), 1), r1(C.cT(g.Td[h]), 1), r1(C.cS(g.W[h]), 1), isNaN(g.D[h]) ? '' : g.D[h], r1(C.cS(A3.gustAt(g, h)), 0), r1(A3.slpAt(g, h), 1), r1(C.cP(g.P[h + sh]), 3), isNaN(g.V[h]) ? null : g.V[h], g.wxs[h] || '']); }
+    return { option, table: { cols: ['Time', `Temp (${C.tU()})`, 'Dew point', `Wind (${C.sU()})`, 'Direction', 'Gust', 'SLP (mb)', `Precip (${C.pU()})`, 'Visibility (mi)', 'Weather'], rows }, onClick: (p) => { const h = h0 + Math.round(p[0]); if (h >= 0 && h < g.nH) UI.go(UI.dayHash((h / 24) | 0)); }, height: 480 };
+  }
+
+  /* ---------- calendar ---------- */
+  function seqColor(kind, t) {
+    const stops = { wet: ['#f5f3ee', '#a8d5b0', '#2f8a55', '#0f4c2e'], snow: ['#f3f6f8', '#b9cfe8', '#4f7fcf', '#1d2b6e'], wind: ['#f3f6f8', '#c9dceb', '#5b8fbd', '#1b2d5c'], gray: ['#f6f8f9', '#c7cfd5', '#7e8a93', '#3a454d'], ifr: ['#f6f3f6', '#e2c4dc', '#a23c6e', '#4a1838'], temp: ['#1d2b6e', '#86b3e2', '#f4f6f6', '#f0a048', '#a3242b'] }[kind];
+    const x = Math.max(0, Math.min(1, t)) * (stops.length - 1), i = Math.min(stops.length - 2, Math.floor(x));
+    return mix(stops[i], stops[i + 1], x - i);
+  }
+  function calendarGrid(R, def, vals) {
+    const g = R.grid, years = []; for (let y = g.y0; y <= g.y1; y++) years.push(y);
+    const v = Array.from(vals).filter((x) => !isNaN(x) && isFinite(x)).sort((a, b) => a - b), q = (p) => v[Math.floor(p * (v.length - 1))];
+    const lo = def.div ? -Math.max(Math.abs(q(0.02)), Math.abs(q(0.98))) : def.unit === 'T' || def.unit === 'U' ? q(0.02) : 0, hi = def.div ? -lo : q(0.985) || 1;
+    const color = (x) => (isNaN(x) || !isFinite(x) ? null : def.div || def.unit === 'T' || def.unit === 'U' ? seqColor('temp', (x - lo) / (hi - lo)) : seqColor(def.seq || 'wind', x <= 0 ? 0 : 0.08 + 0.92 * (x - 0) / (hi - 0)));
+    const cell = new Map(), data = [], cols = [];
+    for (let d = 0; d < g.nDays; d++) { if (g.dayM[d] === 1 && g.dayD[d] === 29) continue; const yi = g.dayY[d] - g.y0, i = g.dayDoy[d]; const c = color(vals[d]); cell.set(yi * N + i, d); if (c) { data.push([i, yi]); cols.push(c); } }
+    const fmt = (x) => (def.div ? `${x >= 0 ? '+' : '−'}${Math.abs(C.cdT(x)).toFixed(1)}°` : Charts2.fmtU(def.unit === 'dT' ? 'T' : def.unit, x, def.unit === 'P' ? 2 : 0));
+    const option = base({ legend: { show: false }, toolbox: { show: false }, grid: { left: 6, right: 12, top: 10, bottom: 6, containLabel: true },
+      xAxis: Object.assign(H.dayAxis(), {}), yAxis: { type: 'category', data: years.map(String), inverse: true, axisLabel: { color: MUTED, fontSize: 10 }, axisLine: { show: false }, axisTick: { show: false } },
+      series: [{ type: 'custom', data, progressive: 0, renderItem: (p, api) => { const a = api.coord([api.value(0), api.value(1)]), w = api.size([1, 1]); return { type: 'rect', shape: { x: a[0] - w[0] / 2, y: a[1] - w[1] / 2, width: w[0] + 0.4, height: w[1] - 1 }, style: { fill: cols[p.dataIndex] } }; },
+        tooltip: { trigger: 'item', formatter: (qq) => { const d = cell.get(qq.value[1] * N + qq.value[0]); return d == null ? '' : tip.head(`${C.MONTHS[g.dayM[d]]} ${g.dayD[d]}, ${g.dayY[d]}`) + tip.row(cols[qq.dataIndex], def.label, fmt(vals[d])) + tip.note('Click to open this day'); } } }],
+      tooltip: Object.assign(tipBase(), { trigger: 'item' }) });
+    const days = []; for (let d = 0; d < g.nDays; d++) days.push(d);
+    return { option, table: { cols: ['Date', def.label], rows: days.filter((d) => !isNaN(vals[d])).map((d) => [Analysis2.ymd(g, d), r1(def.div ? C.cdT(vals[d]) : Charts2.cvU(def.unit === 'dT' ? 'T' : def.unit, vals[d]), 2)]) },
+      onClick: (p) => { const d = cell.get(Math.round(p[1]) * N + Math.round(p[0])); if (d != null) UI.go(UI.dayHash(d)); }, height: Math.max(220, years.length * 24 + 40), legendRange: [lo, hi, fmt] };
+  }
+  function fingerprint(R, y) {
+    const g = R.grid, hm = R.hourlyTemp, data = [], cols = [], cell = new Map();
+    let mx = 1; const val = (d, k) => g.T[d * 24 + k] - hm[g.dayDoy[d] * 24 + k];
+    for (let d = 0; d < g.nDays; d++) if (g.dayY[d] === y && !(g.dayM[d] === 1 && g.dayD[d] === 29)) for (let k = 0; k < 24; k++) { const v = val(d, k); if (!isNaN(v)) mx = Math.max(mx, Math.abs(v)); }
+    mx = Math.min(mx, 30);
+    for (let d = 0; d < g.nDays; d++) {
+      if (g.dayY[d] !== y || (g.dayM[d] === 1 && g.dayD[d] === 29)) continue; const i = g.dayDoy[d]; cell.set(i, d);
+      for (let k = 0; k < 24; k++) { const v = val(d, k); if (isNaN(v)) continue; data.push([i, k]); cols.push(seqColor('temp', 0.5 + v / (2 * mx))); }
+    }
+    const option = base({ legend: { show: false }, toolbox: { show: false }, xAxis: H.dayAxis(), yAxis: H.hourAxis(), grid: { left: 6, right: 18, top: 16, bottom: 6, containLabel: true },
+      series: [{ type: 'custom', data, progressive: 0, renderItem: (p, api) => { const i = api.value(0), k = api.value(1), a = api.coord([i, k]), b = api.coord([i, k + 1]), w = api.size([1, 0])[0]; return { type: 'rect', shape: { x: a[0] - w / 2, y: Math.min(a[1], b[1]), width: w + 0.6, height: Math.abs(b[1] - a[1]) + 0.6 }, style: { fill: cols[p.dataIndex] } }; },
+        tooltip: { trigger: 'item', formatter: (q) => { const d = cell.get(q.value[0]), k = q.value[1], v = val(d, k); return tip.head(`${C.MONTHS[g.dayM[d]]} ${g.dayD[d]}, ${y}, ${C.fClock(k)}`) + tip.row(cols[q.dataIndex], 'Temperature', C.fT(g.T[d * 24 + k])) + tip.note(`${v >= 0 ? '+' : '−'}${Math.abs(C.cdT(v)).toFixed(1)}° versus the average for this hour and date`); } } }],
+      tooltip: Object.assign(tipBase(), { trigger: 'item' }) });
+    return { option, table: { cols: ['Date', ...hourLabels.map((h) => `${h} anomaly`)], rows: [...cell.entries()].map(([i, d]) => [Analysis2.ymd(g, d), ...hourLabels.map((_, k) => r1(C.cdT(val(d, k)), 1))]) },
+      onClick: (p) => { const d = cell.get(Math.round(p[0])); if (d != null) UI.go(UI.dayHash(d)); }, height: 340, range: mx };
+  }
+
+  /* ---------- wind resource ---------- */
+  const ms = (v) => r1(v, 2);
+  function windHist(W) {
+    const wb = W.weib, x = W.hist.map((_, i) => `${i}${i === 25 ? '+' : ''}`);
+    const pdf = wb ? W.hist.map((_, i) => { const v = i + 0.5, k = wb.k, A = wb.A; return r1((k / A) * Math.pow(v / A, k - 1) * Math.exp(-Math.pow(v / A, k)) * (1 - W.calm) * 100, 2); }) : [];
+    const option = base({ xAxis: { type: 'category', data: x, axisLabel: { color: MUTED, fontSize: 10 }, axisLine: { lineStyle: { color: RULE } }, name: 'Wind speed at the station (m/s)', nameLocation: 'middle', nameGap: 24, nameTextStyle: { color: MUTED, fontSize: 11 } },
+      yAxis: valAxis({ min: 0, axisLabel: { color: MUTED, fontSize: 10, formatter: '{value}%' } }), grid: { left: 6, right: 12, top: 40, bottom: 26, containLabel: true },
+      series: [{ name: 'Observed hours', type: 'bar', data: W.hist.map((v) => r1(v * 100, 2)), itemStyle: { color: alpha('#2f6db3', 0.75) }, barWidth: '80%' }, ...(wb ? [line(`Weibull fit (A ${wb.A.toFixed(2)} m/s, k ${wb.k.toFixed(2)})`, pdf, '#c8423b', { smooth: true })] : [])],
+      tooltip: Object.assign(tipBase(), { axisPointer: { type: 'shadow' }, formatter: (ps) => tip.head(`${dataIdx(ps)} to ${dataIdx(ps) + 1} m/s`) + ps.map((p) => tip.row(p.color, p.seriesName.split(' (')[0], `${p.value}%`)).join('') }) });
+    return { option, table: { cols: ['Bin (m/s)', 'Observed (%)', 'Weibull (%)'], rows: x.map((b, i) => [b, r1(W.hist[i] * 100, 2), pdf[i] == null ? '' : pdf[i]]) }, height: 300 };
+  }
+  function windMonthly(W) {
+    const option = base({ xAxis: monthAxis(), grid: { left: 6, right: 6, top: 40, bottom: 6, containLabel: true },
+      yAxis: [valAxis({ min: 0, axisLabel: { color: MUTED, fontSize: 10, formatter: '{value} m/s' } }), valAxis({ min: 0, splitLine: { show: false }, axisLabel: { color: MUTED, fontSize: 10, formatter: '{value}%' } })],
+      series: [{ name: 'Mean speed at hub height', type: 'bar', data: W.monthly.map((m) => ms(m.mean * W.f)), itemStyle: { color: alpha('#2f6db3', 0.75) } },
+        line('Gross capacity factor', W.monthly.map((m) => r1(m.cf * 100, 1)), '#c8423b', { yAxisIndex: 1, symbol: 'circle', symbolSize: 6 })],
+      tooltip: Object.assign(tipBase(), { axisPointer: { type: 'shadow' }, formatter: (ps) => { const m = W.monthly[dataIdx(ps)]; return tip.head(C.MONTHS[dataIdx(ps)]) + tip.row('#2f6db3', 'Mean speed at hub', `${(m.mean * W.f).toFixed(2)} m/s`) + tip.row('#c8423b', 'Gross capacity factor', `${(m.cf * 100).toFixed(1)}%`) + tip.note(`At the station: ${m.mean.toFixed(2)} m/s${m.weib ? `, Weibull k ${m.weib.k.toFixed(2)}` : ''}, power density ${m.pd.toFixed(0)} W/m²`); } }) });
+    return { option, table: { cols: ['Month', 'Station mean (m/s)', 'Hub mean (m/s)', 'Weibull A (m/s)', 'Weibull k', 'Station power density (W/m²)', 'Gross CF (%)'], rows: W.monthly.map((m, i) => [C.MONTHS[i], ms(m.mean), ms(m.mean * W.f), m.weib ? ms(m.weib.A) : '', m.weib ? r1(m.weib.k, 2) : '', r1(m.pd, 0), r1(m.cf * 100, 1)]) }, height: 300 };
+  }
+  function wind12x24(W, which) {
+    const src = which === 'speed' ? W.s12 : W.m12, data = [];
+    src.forEach((r, m) => r.forEach((v, k) => data.push([k, m, isNaN(v) ? null : which === 'speed' ? r1(v, 2) : r1(v * 100, 1)])));
+    const vals = data.map((d) => d[2]).filter((v) => v != null), lo = Math.min(...vals), hi = Math.max(...vals);
+    const option = base({ toolbox: { show: false }, legend: { show: false }, grid: { left: 6, right: 70, top: 10, bottom: 6, containLabel: true },
+      xAxis: { type: 'category', data: hourLabels, axisLabel: { color: MUTED, fontSize: 10, interval: 2 }, axisLine: { lineStyle: { color: RULE } }, axisTick: { show: false } },
+      yAxis: { type: 'category', data: C.MON, inverse: true, axisLabel: { color: MUTED, fontSize: 11 }, axisLine: { show: false }, axisTick: { show: false } },
+      visualMap: { min: lo, max: hi, calculable: false, orient: 'vertical', right: 0, top: 'middle', itemHeight: 150, itemWidth: 10, text: [which === 'speed' ? `${hi.toFixed(1)} m/s` : `${hi.toFixed(0)}%`, which === 'speed' ? `${lo.toFixed(1)}` : `${lo.toFixed(0)}%`], textStyle: { color: MUTED, fontSize: 10 }, inRange: { color: ['#f3f6f8', '#c9dceb', '#5b8fbd', '#2a4f8f', '#1b2d5c'] } },
+      series: [{ type: 'heatmap', data, itemStyle: { borderColor: '#fff', borderWidth: 1 } }],
+      tooltip: Object.assign(tipBase(), { trigger: 'item', formatter: (q) => tip.head(`${C.MONTHS[q.value[1]]}, ${C.fClock(q.value[0])}`) + tip.row('#2a4f8f', which === 'speed' ? 'Mean hub-height speed' : 'Gross capacity factor', which === 'speed' ? `${q.value[2]} m/s` : `${q.value[2]}%`) }) });
+    return { option, table: { cols: ['Month', ...hourLabels], rows: src.map((r, m) => [C.MONTHS[m], ...r.map((v) => (which === 'speed' ? r1(v, 2) : r1(v * 100, 1)))]) }, height: 330 };
+  }
+  function windYears(W) {
+    const ys = W.years.map((r) => String(r.y)), m = W.cfMean * 100, sd = W.cfSd * 100;
+    const option = base({ xAxis: { type: 'category', data: ys, axisLabel: { color: MUTED, fontSize: 10 }, axisLine: { lineStyle: { color: RULE } } }, grid: { left: 6, right: 6, top: 40, bottom: 6, containLabel: true },
+      yAxis: [valAxis({ scale: true, axisLabel: { color: MUTED, fontSize: 10, formatter: '{value}%' } }), valAxis({ scale: true, splitLine: { show: false }, axisLabel: { color: MUTED, fontSize: 10, formatter: '{value} m/s' } })],
+      series: [{ name: 'Gross capacity factor', type: 'bar', data: W.years.map((r) => ({ value: r1(r.cf * 100, 2), itemStyle: { color: r.cover < 0.85 ? '#c7cfd5' : r.cf * 100 >= m ? '#d8643c' : '#4f86c6' } })),
+        markLine: isNaN(m) ? undefined : { symbol: 'none', silent: true, data: [{ yAxis: r1(m, 2), label: { formatter: 'mean', color: MUTED, fontSize: 10 } }, { yAxis: r1(m - sd, 2), label: { formatter: '−1σ', color: MUTED, fontSize: 10 } }, { yAxis: r1(m + sd, 2), label: { formatter: '+1σ', color: MUTED, fontSize: 10 } }], lineStyle: { color: MUTED, type: [4, 3] } } },
+        line('Mean hub-height speed', W.years.map((r) => ms(r.v)), '#17232b', { yAxisIndex: 1, symbol: 'circle', symbolSize: 5 })],
+      tooltip: Object.assign(tipBase(), { axisPointer: { type: 'shadow' }, formatter: (ps) => { const r = W.years[dataIdx(ps)]; return tip.head(String(r.y)) + tip.row('#d8643c', 'Gross capacity factor', `${(r.cf * 100).toFixed(1)}%`) + tip.row('#17232b', 'Mean hub-height speed', `${r.v.toFixed(2)} m/s`) + tip.note(`${Math.round(r.cover * 100)}% of hours reported${r.cover < 0.85 ? ' (left out of the statistics)' : ''}`); } }) });
+    return { option, table: { cols: ['Year', 'Gross CF (%)', 'Hub mean (m/s)', 'Hours reported (%)'], rows: W.years.map((r) => [String(r.y), r1(r.cf * 100, 2), ms(r.v), r1(r.cover * 100, 1)]) }, height: 300 };
+  }
+  function windRoseEnergy(W) {
+    const option = base({ toolbox: { show: false }, legend: Object.assign(base().legend, { orient: 'vertical', left: '4%', top: 'middle' }), polar: { center: ['58%', '52%'], radius: ['6%', '80%'] },
+      angleAxis: { type: 'category', data: C.DIRS16, startAngle: 90 + 11.25, clockwise: true, axisLabel: { color: MUTED, fontSize: 10 }, axisLine: { lineStyle: { color: RULE } }, axisTick: { show: false }, splitLine: { show: true, lineStyle: { color: GRIDLINE } } },
+      radiusAxis: { axisLabel: { color: MUTED, fontSize: 9, formatter: (v) => (v ? `${v}%` : '') }, axisLine: { show: false }, axisTick: { show: false }, splitLine: { lineStyle: { color: GRIDLINE } }, z: 10 },
+      series: [{ name: 'Share of hours', type: 'bar', coordinateSystem: 'polar', data: W.sectors.map((s) => r1(s.freq * 100, 2)), itemStyle: { color: alpha('#93a0aa', 0.85) }, barGap: '0%' },
+        { name: 'Share of energy', type: 'bar', coordinateSystem: 'polar', data: W.sectors.map((s) => r1(s.energy * 100, 2)), itemStyle: { color: '#d8643c' } }],
+      tooltip: Object.assign(tipBase(), { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: (ps) => { const i = dataIdx(ps), s = W.sectors[i]; return tip.head(`From ${C.DIRS16[i]}`) + tip.row('#93a0aa', 'Share of hours', `${(s.freq * 100).toFixed(1)}%`) + tip.row('#d8643c', 'Share of energy', `${(s.energy * 100).toFixed(1)}%`) + tip.note(`Mean hub-height speed ${isNaN(s.mean) ? '–' : s.mean.toFixed(2)} m/s`); } }) });
+    return { option, table: { cols: ['Direction', 'Hours (%)', 'Energy (%)', 'Hub mean (m/s)'], rows: C.DIRS16.map((d, i) => [d, r1(W.sectors[i].freq * 100, 2), r1(W.sectors[i].energy * 100, 2), ms(W.sectors[i].mean)]) }, height: 380 };
+  }
+  function powerCurveChart(W) {
+    const xs = Array.from({ length: 27 }, (_, i) => i);
+    const option = base({ xAxis: { type: 'category', data: xs.map(String), axisLabel: { color: MUTED, fontSize: 10 }, name: 'Hub-height wind speed (m/s)', nameLocation: 'middle', nameGap: 24, nameTextStyle: { color: MUTED, fontSize: 11 } }, yAxis: valAxis({ min: 0, max: 100, axisLabel: { color: MUTED, fontSize: 10, formatter: '{value}%' } }),
+      grid: { left: 6, right: 12, top: 20, bottom: 26, containLabel: true }, legend: { show: false }, toolbox: { show: false },
+      series: [line('Power (share of rated)', xs.map((v) => r1(W.pc(v) * 100, 1)), '#2f6db3', { symbol: 'circle', symbolSize: 4, areaStyle: { color: alpha('#2f6db3', 0.1) } })],
+      tooltip: Object.assign(tipBase(), { formatter: (ps) => tip.head(`${dataIdx(ps)} m/s`) + tip.row('#2f6db3', 'Power', `${ps[0].value}% of rated`) }) });
+    return { option, table: { cols: ['Speed (m/s)', 'Power (% of rated)'], rows: xs.map((v) => [v, r1(W.pc(v) * 100, 1)]) }, height: 220 };
+  }
+
+  /* ---------- work windows ---------- */
+  function workHeat(R, wk) {
+    const series = H.hourGrid(R, (i, k) => { const v = wk.heat[i * 24 + k]; return isNaN(v) ? null : mix('#f6e3d5', '#2f8a55', Math.max(0, Math.min(1, v))); },
+      (i, k) => { const v = wk.heat[i * 24 + k]; return tip.head(`${C.doyLong(i)}, ${C.fClock(k)}`) + tip.row('#2f8a55', 'Workable', isNaN(v) ? '–' : `${Math.round(v * 100)}% of years`); });
+    const option = base({ legend: { show: false }, xAxis: H.dayAxis(), yAxis: H.hourAxis(), series, grid: { left: 6, right: 18, top: 28, bottom: 6, containLabel: true }, tooltip: Object.assign(tipBase(), { trigger: 'item' }) });
+    return { option, table: { cols: ['Date', ...hourLabels.map((h) => `${h} workable (%)`)], rows: Array.from({ length: N }, (_, i) => [C.DOY_LABELS[i], ...hourLabels.map((_, k) => r1(wk.heat[i * 24 + k] * 100, 0))]) }, height: 360 };
+  }
+  function workMonthly(wk) {
+    const M = wk.monthly;
+    const option = base({ xAxis: monthAxis(), yAxis: valAxis({ min: 0, axisLabel: { color: MUTED, fontSize: 10, formatter: '{value} d' } }),
+      series: [{ name: 'Typical year (P50)', type: 'bar', data: M.map((m) => r1(m.p50, 1)), itemStyle: { color: alpha('#2f8a55', 0.75) }, barWidth: '55%' },
+        { name: 'Range, 1 year in 10 (P90 to P10)', type: 'custom', data: M.map((m, i) => [i, m.p90, m.p10]), z: 6, itemStyle: { color: '#17232b' },
+          renderItem: (p, api) => { if (isNaN(api.value(1))) return; const a = api.coord([api.value(0), api.value(1)]), b = api.coord([api.value(0), api.value(2)]), w = api.size([1, 0])[0] * 0.18;
+            return { type: 'group', children: [{ type: 'line', shape: { x1: a[0], y1: a[1], x2: b[0], y2: b[1] }, style: { stroke: '#17232b', lineWidth: 1.4 } }, { type: 'line', shape: { x1: a[0] - w, y1: a[1], x2: a[0] + w, y2: a[1] }, style: { stroke: '#17232b', lineWidth: 1.4 } }, { type: 'line', shape: { x1: b[0] - w, y1: b[1], x2: b[0] + w, y2: b[1] }, style: { stroke: '#17232b', lineWidth: 1.4 } }] }; } }],
+      tooltip: Object.assign(tipBase(), { axisPointer: { type: 'shadow' }, formatter: (ps) => { const m = M[dataIdx(ps)]; return tip.head(C.MONTHS[dataIdx(ps)]) + tip.row('#2f8a55', 'Workable days, typical year', r1(m.p50, 1)) + tip.note(`Bad year (1 in 10): ${r1(m.p10, 1)}; good year: ${r1(m.p90, 1)}`) + tip.note(`${r1(m.hrs, 1)} workable hours per day on average`); } }) });
+    return { option, table: { cols: ['Month', 'P10 (bad year)', 'P50', 'P90 (good year)', 'Mean', 'Workable hours per day'], rows: M.map((m, i) => [C.MONTHS[i], r1(m.p10, 1), r1(m.p50, 1), r1(m.p90, 1), r1(m.mean, 1), r1(m.hrs, 1)]) }, height: 300 };
+  }
+  const REASON_LABEL = { wind: 'Sustained wind', gust: 'Gusts', precip: 'Precipitation', lightning: 'Thunder', temp: 'Temperature', vis: 'Visibility', ceil: 'Ceiling' };
+  const REASON_COLOR = { wind: '#2f6db3', gust: '#c8423b', precip: '#3c9a6a', lightning: '#9c2a6e', temp: '#d98a2b', vis: '#93a0aa', ceil: '#46525b' };
+  function workFail(wk) {
+    const used = A3.REASONS.filter((r, i) => wk.monthly.some((m) => m.fail[i] > 0.001));
+    const option = base({ xAxis: monthAxis(), yAxis: valAxis({ min: 0, axisLabel: { color: MUTED, fontSize: 10, formatter: '{value}%' } }),
+      series: used.map((r) => ({ name: REASON_LABEL[r], type: 'bar', data: wk.monthly.map((m) => r1(m.fail[A3.REASONS.indexOf(r)] * 100, 1)), itemStyle: { color: REASON_COLOR[r] } })),
+      tooltip: Object.assign(tipBase(), { axisPointer: { type: 'shadow' }, formatter: (ps) => tip.head(`${C.MONTHS[dataIdx(ps)]}: share of working hours failing`) + ps.map((p) => tip.row(p.color, p.seriesName, `${p.value}%`)).join('') }) });
+    return { option, table: { cols: ['Month', ...used.map((r) => `${REASON_LABEL[r]} (% of working hours)`)], rows: C.MONTHS.map((m, i) => [m, ...used.map((r) => r1(wk.monthly[i].fail[A3.REASONS.indexOf(r)] * 100, 1))]) }, height: 300 };
+  }
+  function schedulePlot(sch, need, startLabel) {
+    const maxD = Math.max(...sch.runs.map((r) => r.days), need + 5);
+    const se = sch.runs.map((r, j) => line(String(r.y), r.path.map((v, k) => [k + 1, v]), alpha(['#2f6db3', '#c8423b', '#3b8f63', '#9c2a6e', '#d98a2b', '#46525b'][j % 6], 0.55), { lineStyle: { width: 1.2 }, smooth: false }));
+    if (se[0]) se[0].markLine = { symbol: 'none', silent: true, data: [{ yAxis: need, label: { formatter: `${need} workable days needed`, color: INK, fontSize: 10, position: 'insideStartTop' }, lineStyle: { color: INK, type: [5, 3] } },
+      ...[['P50', sch.p50], ['P90', sch.p90]].filter(([, v]) => !isNaN(v)).map(([n, v]) => ({ xAxis: v, label: { formatter: `${n}: ${Math.round(v)} days`, color: '#9c2a6e', fontSize: 10 }, lineStyle: { color: '#9c2a6e', type: [4, 3] } }))] };
+    const option = base({ xAxis: { type: 'value', min: 0, max: Math.ceil(maxD), axisLine: { lineStyle: { color: RULE } }, axisLabel: { color: MUTED, fontSize: 10 }, name: `Calendar days after ${startLabel}`, nameLocation: 'middle', nameGap: 24, nameTextStyle: { color: MUTED, fontSize: 11 }, splitLine: { lineStyle: { color: GRIDLINE } } },
+      yAxis: valAxis({ min: 0, axisLabel: { color: MUTED, fontSize: 10 } }), series: se, legend: { show: false }, grid: { left: 6, right: 18, top: 20, bottom: 30, containLabel: true },
+      tooltip: Object.assign(tipBase(), { trigger: 'item', formatter: (q) => tip.head(`Starting in ${q.seriesName}`) + tip.row(q.color, `After ${q.value[0]} calendar days`, `${q.value[1]} workable days`) }) });
+    return { option, table: { cols: ['Start year', 'Calendar days needed', 'Finish date'], rows: sch.runs.map((r) => [String(r.y), r.days, r.endLabel]) }, height: 330 };
+  }
+
+  return { forecastContext, oddsChart, eventsByYear, eventsByMonth, meteogram, calendarGrid, fingerprint, windHist, windMonthly, wind12x24, windYears, windRoseEnergy, powerCurveChart,
+    workHeat, workMonthly, workFail, schedulePlot, seqColor, REASON_LABEL, ordinalPct };
 })();
 
 /* ---------------------------------------------------------------------------
@@ -5188,7 +5734,292 @@ const Pages = (() => {
   const fromThr = (v, x) => (v.unit === 'T' ? fromDisp('T', x) : v.unit === 'P' ? fromDisp('P', x) : x);
   const mix2 = (a, b, t) => { const p = (h) => parseInt(h.slice(1), 16), A = p(a), B = p(b), ch = (s3) => Math.round(((A >> s3) & 255) * (1 - t) + ((B >> s3) & 255) * t); return `rgb(${ch(16)},${ch(8)},${ch(0)})`; };
 
-  return { yearExtraSections, month, historyYear, historyMonth, historyDay, records, trends, quality, events, explore, wind1min, compare, graphs, tables, zoomMonth, parseHomr, accumulation, monthlyTable, TABLE_VARS };
+  return { yearExtraSections, month, historyYear, historyMonth, historyDay, records, trends, quality, events, explore, wind1min, compare, graphs, tables, zoomMonth, parseHomr, accumulation, monthlyTable, TABLE_VARS, stationNormals };
+})();
+
+/* ---------------------------------------------------------------------------
+   Pages: Now (live conditions and forecast in climate context), Storms
+   (event catalog), Calendar (every day of the record), Wind resource and
+   Work windows (construction weather planning).
+--------------------------------------------------------------------------- */
+const Pages3 = (() => {
+  const C = Core, A2 = Analysis2, A3 = Analysis3, C2 = Charts2, C3 = Charts3, $ = (s, el = document) => el.querySelector(s), $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const R_ = () => UI.state.R, M_ = () => UI.state.meta, esc = C.esc, em = (s) => `<em>${s}</em>`;
+  const ui = { state: {} };
+  const prose = (...ps) => `<div class="prose">${ps.filter(Boolean).map((p) => (p.startsWith('<p') ? p : `<p>${p}</p>`)).join('')}</div>`;
+  const sec = (id, nav, title, html) => ({ id, nav, html: `<h2>${title}</h2>${html}` });
+  const pageHead = (t, sub) => `<header class="phead"><h1>${t}</h1>${sub ? `<p class="lede">${sub}</p>` : ''}</header>`;
+  const tiles = (items) => `<div class="hl">${items.filter(Boolean).map(([k, v, x]) => `<div class="hl-i"><div class="hl-k">${k}</div><div class="hl-v">${v}</div><div class="hl-x">${x || ''}</div></div>`).join('')}</div>`;
+  const fig = (key, build, title, cap, o = {}) => { UI.reg(key, build); return UI.h.figure(key, title, cap, o); };
+  const dateText = (g, d) => `${C.MONTHS[g.dayM[d]]} ${g.dayD[d]}, ${g.dayY[d]}`;
+  const shortDate = (g, d) => `${C.MON[g.dayM[d]]} ${g.dayD[d]}, ${g.dayY[d]}`;
+  const dayLink = (d, text) => `<a href="${UI.dayHash(d)}">${esc(text)}</a>`;
+  const table = (cols, rows, cls = '') => `<div class="dt-wrap tall"><table class="dt ${cls}"><thead><tr>${cols.map((c) => `<th scope="col">${c}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((v, j) => (j === 0 ? `<th scope="row">${v}</th>` : `<td>${v == null || (typeof v === 'number' && isNaN(v)) ? '–' : v}</td>`)).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const lastDataDay = (R) => { const g = R.grid; for (let d = g.nDays - 1; d >= 0; d--) if (!isNaN(R.daily.Tmax[d])) return d; return g.nDays - 1; };
+  const ord = (n) => { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); };
+  /** Percentile of a value among the hourly values of a variable near this date and hour. */
+  function hourPct(R, arr, doy, hour, value) {
+    const g = R.grid, vals = [];
+    for (let d = 0; d < g.nDays; d++) { let dd = Math.abs(g.dayDoy[d] - doy); dd = Math.min(dd, C.NDOY - dd); if (dd > 7) continue; for (const k of [hour - 1, hour, hour + 1]) { if (k < 0 || k > 23) continue; const v = arr[d * 24 + k]; if (!isNaN(v)) vals.push(v); } }
+    if (vals.length < 30 || isNaN(value)) return null;
+    return { p: vals.filter((v) => v < value).length / vals.length * 100, n: vals.length };
+  }
+  function dailyPct(R, arr, doy, value) {
+    const g = R.grid, vals = []; for (let d = 0; d < g.nDays; d++) { let dd = Math.abs(g.dayDoy[d] - doy); dd = Math.min(dd, C.NDOY - dd); if (dd <= 7 && !isNaN(arr[d])) vals.push(arr[d]); }
+    return vals.length < 20 || value == null || isNaN(value) ? null : vals.filter((v) => v < value).length / vals.length * 100;
+  }
+  const pctWords = (p, warm, cold) => (p == null ? '' : p >= 50 ? `${warm} than ${Math.round(p)}%` : `${cold} than ${Math.round(100 - p)}%`);
+
+  /* ======================= Now ======================= */
+  function now() {
+    const R = R_(), g = R.grid, D = R.daily, meta = M_(), P = UI.place(), rec = A2.records(R), lastD = lastDataDay(R), t = R.temp;
+    const head = pageHead(`${esc(meta.id)} right now`, `Live conditions and the National Weather Service forecast for ${P}, each set against this station’s own ${R.period[0]} to ${R.period[1]} record: how unusual today is, what the next week holds compared with normal, and the odds of the season’s milestones.`);
+    // climate odds
+    const O = A3.odds(R), oddsTxt = O.list.map((x) => {
+      const med = (() => { const k = x.curve.findIndex((c) => c >= 0.5); return k >= 0 ? C.doyLong(x.order[k]) : null; })();
+      if (x.happened >= 0) return `${em(x.label)}: already happened this season, on ${dayLink(x.happened, shortDate(g, x.happened))}${med ? ` (the median date is ${med})` : ''}.`;
+      const in14 = x.cond(Math.min(C.NDOY - 1, x.today + 14)), in30 = x.cond(Math.min(C.NDOY - 1, x.today + 30));
+      return `${em(x.label)}: not yet this season. Chance within 14 days ${isNaN(in14) ? '–' : C.fPct(in14)}, within 30 days ${isNaN(in30) ? '–' : C.fPct(in30)}${med ? `; the median date is ${med}` : ''}${x.never ? `; ${x.never} of ${x.n} seasons never had one` : ''}.`;
+    });
+    if (O.whiteXmas) oddsTxt.push(`${em('White Christmas')} (1 in or more of snow on the ground on December 25): ${O.whiteXmas.yes} of ${O.whiteXmas.n} years, ${C.fPct(O.whiteXmas.yes / O.whiteXmas.n)}.`);
+    // this date in history
+    const i = g.dayDoy[lastD], same = []; for (let d = g.nDays - 1; d >= 0; d--) if (g.dayDoy[d] === i && !(g.dayM[d] === 1 && g.dayD[d] === 29)) same.push(d);
+    const yr = (r) => (r.d >= 0 ? g.dayY[r.d] : '');
+    const evs = A3.events(R).filter((e) => { for (let d = e.d0; d <= e.d1; d++) if (g.dayDoy[d] === i) return true; return false; });
+    const histHtml = prose(`Records for ${C.MONTHS[g.dayM[lastD]]} ${g.dayD[lastD]} in the loaded record: high ${C.fT(rec.daily.hi[i].v)} (${yr(rec.daily.hi[i])}), low ${C.fT(rec.daily.lo[i].v)} (${yr(rec.daily.lo[i])}), highest low ${C.fT(rec.daily.hiLo[i].v)} (${yr(rec.daily.hiLo[i])}), lowest high ${C.fT(rec.daily.loHi[i].v)} (${yr(rec.daily.loHi[i])}), wettest ${C.fP(rec.daily.p[i].v, 2)} (${yr(rec.daily.p[i])}). Average high ${C.fT(t.hi.mean[i])}, low ${C.fT(t.lo.mean[i])}.`,
+      evs.length ? `On or around this date: ${evs.slice(-6).map((e) => `${A3.EVENT_TYPES.find((x) => x.key === e.type).label.toLowerCase()} in ${g.dayY[e.d0]} (<a href="${UI.link('storms')}" data-ev="${e.id}">details</a>)`).join(', ')}.` : '')
+      + table(['Year', 'High', 'Low', 'Precip.', ...(g.cli ? ['Snowfall', 'Depth'] : []), 'Peak gust', 'Weather'], same.slice(0, 12).map((d) => {
+        const toks = new Set(); for (let k = 0; k < 24; k++) { const w = g.wxs[d * 24 + k]; if (w) w.split(/\s+/).forEach((x) => x && toks.add(x.replace(/^[-+]/, ''))); }
+        return [dayLink(d, String(g.dayY[d])), C.fT(D.Tmax[d]), C.fT(D.Tmin[d]), C.fP(rec.precipArr[d], 2), ...(g.cli ? [C.fP(g.cli.snow[d], 1), C.fP(g.cli.depth[d], 0)] : []), C.fS(A2.dailyX(R).gust[d], 0), esc([...toks].slice(0, 6).join(' '))];
+      }));
+    // last 30 days
+    const days30 = []; for (let d = Math.max(0, lastD - 29); d <= lastD; d++) days30.push(d);
+    const N0 = Pages.stationNormals(R);
+    const secs = [
+      sec('nw-obs', 'Now', 'Right now', `<div id="nowObs">${prose('Loading the latest observation from the National Weather Service.')}</div><div id="nowAlerts"></div>`),
+      sec('nw-fc', 'Next 7 days', 'The next 7 days against the record', `<div id="nowFc">${prose('Loading the NWS forecast.')}</div>`),
+      sec('nw-odds', 'Climate odds', 'Climate odds', prose(...oddsTxt, '<p class="caveat">Odds come from the share of seasons in the loaded record where the event happened by each date. “Not yet” odds count only the seasons where it had not happened by today’s date either.</p>')
+        + fig('oddsCold', () => C3.oddsChart(O, ['firstFrz', 'firstSnow', 'firstCover']), 'Cold-season milestones', 'Share of seasons in which each event had happened by each date, counted from July 1.', { height: 300 })
+        + fig('oddsWarm', () => C3.oddsChart(O, ['lastFrz', 'first90']), 'Warm-season milestones', 'Share of years in which the last spring freeze or the first 90 °F high had happened by each date.', { height: 300 })),
+      sec('nw-hist', 'This date in history', `${C.MONTHS[g.dayM[lastD]]} ${g.dayD[lastD]} in history`, histHtml),
+      sec('nw-30', 'Last 30 days', 'The last 30 days of the record', prose(`The 30 days ending ${dateText(g, lastD)}, against this record’s averages. Set the last year to the current year to keep this current.`)
+        + fig('now30t', () => C2.cliTemp(R, days30, N0), 'Daily temperatures', 'Observed daily range over the normal range and records; diamonds mark records set or tied.', { height: 340 })
+        + fig('now30p', () => C2.cliCumulative(R, days30, rec.precipArr, N0.p, 'precip'), 'Precipitation', 'Daily precipitation and the running total against normal.', { height: 280 }))];
+    UI.page({ nav: 'now', head, secs, title: `${meta.id} now` });
+    $$('[data-ev]').forEach((a) => a.addEventListener('click', () => { ui.state.evSel = +a.dataset.ev; }));
+    Data.fetchNws(meta).then((res) => renderNow(R, res)).catch((e) => { const b = $('#nowObs'); if (b) b.innerHTML = prose(`The live NWS data could not be loaded: ${esc(e.message)}`); });
+  }
+  function renderNow(R, res) {
+    const g = R.grid, meta = M_(), box = $('#nowObs'); if (!box) return;
+    const o = res.obs;
+    if (o && o.timestamp) {
+      const ts = new Date(o.timestamp), off = Astro.tzOffset(meta.tz, ts.getTime()), loc = new Date(ts.getTime() + off * 60000);
+      const doy = C.doyOf(loc.getUTCMonth(), loc.getUTCDate()), hr = loc.getUTCHours();
+      const cF = (q) => (q && q.value != null ? q.value * 1.8 + 32 : NaN), kmh = (q) => (q && q.value != null ? q.value / 1.609344 : NaN);
+      const T = cF(o.temperature), Td = cF(o.dewpoint), W = kmh(o.windSpeed), Gs = kmh(o.windGust), slp = o.seaLevelPressure && o.seaLevelPressure.value != null ? o.seaLevelPressure.value / 100 : NaN, vis = o.visibility && o.visibility.value != null ? o.visibility.value / 1609.344 : NaN;
+      const pT = hourPct(R, g.T, doy, hr, T), pTd = hourPct(R, g.Td, doy, hr, Td), pW = hourPct(R, g.W, doy, hr, W);
+      const when = `${C.fClock(hr + loc.getUTCMinutes() / 60)} ${C.MON[loc.getUTCMonth()]} ${loc.getUTCDate()}`;
+      const ctx = (p, warm, cold, what) => (p ? `${pctWords(p.p, warm, cold)} of ${what} near ${C.fClock(hr).replace(':00', '')} within a week of this date` : '');
+      box.innerHTML = tiles([['Temperature', C.fT(T), ctx(pT, 'warmer', 'colder', 'readings')], ['Dew point', C.fT(Td), ctx(pTd, 'more humid', 'drier', 'readings')],
+        ['Wind', `${C.fS(W)}${o.windDirection && o.windDirection.value != null ? ` from ${C.compass16(o.windDirection.value)}` : ''}`, `${!isNaN(Gs) ? `gusting ${C.fS(Gs, 0)}; ` : ''}${ctx(pW, 'windier', 'calmer', 'hours')}`],
+        ['Sky and weather', esc(o.textDescription || '–'), !isNaN(vis) ? `visibility ${vis.toFixed(1)} mi` : ''], ['Pressure', isNaN(slp) ? '–' : `${slp.toFixed(1)} mb`, isNaN(slp) ? '' : `${(slp / 33.8639).toFixed(2)} inHg`],
+        ['Observed', when, o.rawMessage ? `<code class="metar">${esc(o.rawMessage)}</code>` : '']]);
+    } else box.innerHTML = prose(`The latest observation is not available. ${esc(res.errors.join('; '))}`);
+    const al = $('#nowAlerts');
+    if (al) al.innerHTML = res.alerts && res.alerts.length ? `<div class="alerts">${res.alerts.map((a) => `<details class="alert"><summary><b>${esc(a.event || 'Alert')}</b> ${esc(a.headline || '')}</summary><p>${esc(a.description || '').replace(/\n/g, '<br>')}</p></details>`).join('')}</div>` : res.alerts ? prose('No active NWS alerts for this location.') : '';
+    // forecast in context
+    const fb = $('#nowFc'); if (!fb) return;
+    if (!res.forecast || !res.forecast.length) { fb.innerHTML = prose(`The NWS forecast is not available. ${esc(res.errors.join('; '))}`); return; }
+    const byDate = new Map();
+    res.forecast.forEach((p) => {
+      const st = p.startTime || '', y = +st.slice(0, 4), m = +st.slice(5, 7) - 1, d = +st.slice(8, 10), hh = +st.slice(11, 13);
+      let dt = new Date(Date.UTC(y, m, d)); if (!p.isDaytime && hh >= 12) dt = new Date(Date.UTC(y, m, d + 1));
+      const key = dt.toISOString().slice(0, 10), o2 = byDate.get(key) || { key, m: dt.getUTCMonth(), d: dt.getUTCDate(), y: dt.getUTCFullYear() };
+      const temp = p.temperatureUnit === 'C' ? p.temperature * 1.8 + 32 : p.temperature;
+      if (p.isDaytime) { o2.fHi = temp; o2.text = p.shortForecast; o2.pop = p.probabilityOfPrecipitation && p.probabilityOfPrecipitation.value; o2.wind = p.windSpeed; } else o2.fLo = temp;
+      byDate.set(key, o2);
+    });
+    const rc = A2.records(R).daily, t = R.temp;
+    const days = [...byDate.values()].sort((a, b) => (a.key < b.key ? -1 : 1)).slice(0, 8).map((x) => {
+      const i = C.doyOf(x.m, x.d), dow = new Date(Date.UTC(x.y, x.m, x.d)).getUTCDay();
+      const hiArr = R.daily.Tmax, loArr = R.daily.Tmin, b = (arr, q) => { const v = []; for (let dd = 0; dd < g.nDays; dd++) { let z = Math.abs(g.dayDoy[dd] - i); z = Math.min(z, C.NDOY - z); if (z <= 7 && !isNaN(arr[dd])) v.push(arr[dd]); } v.sort((a2, b2) => a2 - b2); return v.length ? v[Math.floor(q * (v.length - 1))] : NaN; };
+      return { ...x, label: `${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dow]} ${x.d}`, long: `${C.MONTHS[x.m]} ${x.d}`, hiMean: t.hi.mean[i], loMean: t.lo.mean[i], hiP10: b(hiArr, 0.1), hiP90: b(hiArr, 0.9), loP10: b(loArr, 0.1), loP90: b(loArr, 0.9),
+        recHi: rc.hi[i].v, recLo: rc.lo[i].v, recHiY: rc.hi[i].d >= 0 ? g.dayY[rc.hi[i].d] : '', recLoY: rc.lo[i].d >= 0 ? g.dayY[rc.lo[i].d] : '',
+        hiPct: x.fHi != null ? Math.round(dailyPct(R, hiArr, i, x.fHi)) : null, loPct: x.fLo != null ? Math.round(dailyPct(R, loArr, i, x.fLo)) : null };
+    });
+    const notes = days.filter((x) => (x.fHi != null && x.fHi >= x.recHi) || (x.fLo != null && x.fLo <= x.recLo) || (x.hiPct != null && (x.hiPct >= 95 || x.hiPct <= 5)) || (x.loPct != null && (x.loPct >= 95 || x.loPct <= 5)))
+      .map((x) => `${x.label}: ${x.fHi != null && x.fHi >= x.recHi ? `forecast high ${C.fT(x.fHi)} would tie or break the record of ${C.fT(x.recHi)}` : x.fLo != null && x.fLo <= x.recLo ? `forecast low ${C.fT(x.fLo)} would tie or break the record of ${C.fT(x.recLo)}` : x.hiPct != null && (x.hiPct >= 95 || x.hiPct <= 5) ? `forecast high in the ${C3.ordinalPct(x.hiPct)} percentile for the date` : `forecast low in the ${C3.ordinalPct(x.loPct)} percentile for the date`}`);
+    UI.reg('nowFc', () => C3.forecastContext({ days }));
+    fb.innerHTML = prose(`The official NWS forecast for this location${res.point && res.point.relativeLocation ? ` (near ${esc(res.point.relativeLocation.properties.city)})` : ''}, with each high and low ranked against every day within a week of its date in the loaded record.${notes.length ? ` Stand-out days: ${notes.join('; ')}.` : ' None of the forecast highs or lows are in the top or bottom 5% for their dates.'}`)
+      + UI.h.figure('nowFc', 'Forecast highs and lows in climate context', 'Dots are the NWS forecast; shading shows the usual 10th to 90th percentile range of highs and lows for each date; dashed lines are averages and dotted lines the records.', { height: 360 })
+      + `<div class="fcrow">${days.map((x) => `<div class="fc"><div class="fc-d">${x.label}</div><div class="fc-t"><span class="hi">${x.fHi != null ? C.fT(x.fHi) : '–'}</span> <span class="lo">${x.fLo != null ? C.fT(x.fLo) : '–'}</span></div><div class="fc-x">${esc(x.text || '')}${x.pop ? `, ${x.pop}% chance of precipitation` : ''}</div></div>`).join('')}</div>`;
+    UI.mount(fb);
+  }
+
+  /* ======================= Storms (event catalog) ======================= */
+  function storms() {
+    const R = R_(), g = R.grid, meta = M_(), P = UI.place();
+    const st = ui.state.st || (ui.state.st = { thr: {}, types: A3.EVENT_TYPES.map((t) => t.key), sort: 'severity' });
+    const all = A3.events(R, st.thr).map((e) => Object.assign(e, { y: g.dayY[e.d0], m: g.dayM[e.d0] }));
+    const evs = all.filter((e) => st.types.includes(e.type)), years = []; for (let y = g.y0; y <= g.y1; y++) years.push(y);
+    const T = (k) => A3.EVENT_TYPES.find((x) => x.key === k);
+    const thrVal = (t) => (st.thr[t.key] != null ? st.thr[t.key] : t.thr);
+    const dispThr = (t) => { const v = thrVal(t); return t.unit === 'T' ? +C.cT(v).toFixed(0) : t.unit === 'P' ? +C.cP(v).toFixed(C.pU() === 'mm' ? 0 : 1) : t.unit === 'S' ? +C.cS(v).toFixed(0) : v; };
+    const unitL = (t) => (t.unit === 'T' ? C.tU() : t.unit === 'P' ? C.pU() : t.unit === 'S' ? C.sU() : 'h');
+    const ctl = `<div class="ctl evtypes">${A3.EVENT_TYPES.filter((t) => t.key !== 'snow' || true).map((t) => `<label class="chip" style="--c:${t.color}"><input type="checkbox" value="${t.key}" ${st.types.includes(t.key) ? 'checked' : ''}> ${t.label} <span class="muted">${all.filter((e) => e.type === t.key).length}</span></label>`).join('')}</div>
+      <details class="thr"><summary>Detection thresholds</summary><div class="ctl">${A3.EVENT_TYPES.map((t) => `<label class="tsel">${t.label}: ${t.thrLabel.toLowerCase()} <input type="number" step="any" class="yr-in" data-thr="${t.key}" value="${dispThr(t)}"> ${unitL(t)}</label>`).join('')}<button type="button" class="tbtn" id="thrGo">Apply</button></div></details>
+      <div class="ctl"><label class="tsel">Sort <select id="evSort"><option value="severity" ${st.sort === 'severity' ? 'selected' : ''}>Most severe first</option><option value="date" ${st.sort === 'date' ? 'selected' : ''}>Newest first</option></select></label></div>`;
+    const metric = (e) => {
+      switch (e.type) {
+        case 'wind': return `peak gust ${C.fS(e.peakGust, 0)}${isNaN(e.dirAtPeak) ? '' : ` from ${C.compass16(e.dirAtPeak)}`}`;
+        case 'snow': return `${C.fP(e.snowTotal, 1)}${e.estimated ? ' (estimated from liquid at 10:1)' : ''}${!isNaN(e.slr) ? `, ratio ${e.slr.toFixed(0)}:1` : ''}${e.blizzardH >= 3 ? `, blizzard conditions ${e.blizzardH} h` : ''}`;
+        case 'ice': return `${e.fzHours} h of freezing rain or drizzle${e.ice > 0 ? `, ${C.fP(e.ice, 2)} ice accretion` : ''}`;
+        case 'rain': return `${C.fP(e.rainTotal, 2)}, wettest hour ${C.fP(e.maxHour, 2)}${e.thunderH ? `, ${e.thunderH} h of thunder` : ''}`;
+        case 'heat': return `${e.days} days, peak ${C.fT(e.maxHigh)}${!isNaN(e.maxHI) ? `, heat index ${C.fT(e.maxHI)}` : ''}, warmest low ${C.fT(e.warmestLow)}`;
+        case 'cold': return `${e.days} days, lowest ${C.fT(e.minLow)}${!isNaN(e.minWC) ? `, wind chill ${C.fT(e.minWC)}` : ''}`;
+        case 'fog': return `${e.fogHours} h at or below 1/4 mile, lowest ${isNaN(e.vmin) ? '–' : e.vmin} mi`;
+        default: return '';
+      }
+    };
+    const sorted = evs.slice().sort((a, b) => (st.sort === 'date' ? b.h0 - a.h0 : (a.rank / a.of) - (b.rank / b.of) || b.severity - a.severity));
+    const when = (e) => (e.d0 === e.d1 ? shortDate(g, e.d0) : `${shortDate(g, e.d0)} to ${C.MON[g.dayM[e.d1]]} ${g.dayD[e.d1]}`);
+    const rows = sorted.slice(0, 400).map((e) => [`<a href="#ev-detail" data-ev="${e.id}">${esc(when(e))}</a>`, `<span class="evtag" style="--c:${T(e.type).color}">${T(e.type).label}</span>`, esc(metric(e)),
+      e.hours >= 48 ? `${Math.round(e.hours / 24)} d` : `${e.hours} h`, C.fS(e.peakGust, 0), isNaN(e.minSlp) ? '–' : `${e.minSlp.toFixed(0)} mb`, C.fP(e.precip, 2), `${e.rank} of ${e.of}`]);
+    const sel = all.find((e) => e.id === ui.state.evSel) || sorted[0];
+    let detail = prose('Select an event in the table to see its storyline.');
+    if (sel) {
+      const pad = 12, h0 = Math.max(0, sel.h0 - pad), h1 = Math.min(g.nH - 1, Math.min(sel.h1, sel.h0 + 24 * 12) + pad);
+      UI.reg('evMeteo', () => C3.meteogram(R, h0, h1, sel.h0, sel.h1));
+      detail = `<div class="evhead"><span class="evtag" style="--c:${T(sel.type).color}">${T(sel.type).label}</span> <b>${esc(when(sel))}</b> <span class="muted">ranked ${sel.rank} of ${sel.of} ${T(sel.type).label.toLowerCase()}s in the record</span></div>`
+        + tiles([['Key measure', esc(metric(sel)), ''], ['Peak gust', C.fS(sel.peakGust, 0), isNaN(sel.maxWind) ? '' : `strongest hourly wind ${C.fS(sel.maxWind)}`], ['Lowest pressure', isNaN(sel.minSlp) ? '–' : `${sel.minSlp.toFixed(1)} mb`, ''], ['Precipitation', C.fP(sel.precip, 2), sel.snowH ? `${sel.snowH} h of snow, ${sel.rainH} h of rain` : ''],
+          ['Temperature range', `${C.fT(sel.tmin)} to ${C.fT(sel.tmax)}`, ''], ['Days', `${dayLink(sel.d0, shortDate(g, sel.d0))}${sel.d1 !== sel.d0 ? ` to ${dayLink(sel.d1, shortDate(g, sel.d1))}` : ''}`, 'open the day pages for raw METARs']])
+        + UI.h.figure('evMeteo', 'Storyline', 'Hour by hour through the event (shaded) and the 12 hours either side: temperature and dew point, wind with gusts and direction arrows, sea-level pressure, and precipitation by type with visibility.', { height: 480 });
+    }
+    const head = pageHead(`Storm catalog for ${esc(meta.id)}`, `Every significant weather event in ${R.period[0]} to ${R.period[1]} at ${P}, found automatically in the hourly reports: windstorms, snowstorms (with blizzard checks), ice storms, heavy rain, heat waves, cold outbreaks and dense fog. Each has a ranked severity and an hour-by-hour storyline.`);
+    UI.reg('evYear', () => C3.eventsByYear(evs, years));
+    UI.reg('evMonth', () => C3.eventsByMonth(evs, years.length));
+    const secs = [
+      sec('st-list', 'Events', 'Events', ctl + table(['When', 'Type', 'Key measure', 'Length', 'Peak gust', 'Lowest pressure', 'Precip.', 'Rank'], rows, 'evt') + (sorted.length > 400 ? prose(`Showing 400 of ${sorted.length}.`) : '')),
+      sec('ev-detail', 'Storyline', 'Storyline', `<div id="evDetail">${detail}</div>`),
+      sec('st-when', 'When they happen', 'When they happen', UI.h.figure('evYear', 'Events by year', 'Counts by type for each year of the record.', { height: 280 }) + UI.h.figure('evMonth', 'Events by month', 'Average events per year starting in each month.', { height: 260 })),
+      sec('st-how', 'How events are found', 'How events are found', prose(`Windstorms are runs of hours with a gust or peak-wind remark at or above the threshold (or sustained wind of 35 mph), joined across gaps of up to 6 hours. Snowstorms are runs of days with snowfall${g.cli ? ' in the climate report' : ' (from the liquid-equivalent gauge amount at 10:1, as this station has no measured snowfall)'}, kept when the total reaches the threshold; blizzard hours need gusts of 35 mph and visibility at or below 1/4 mile together. Ice storms join freezing rain and drizzle hours across 6-hour gaps. Heavy rain joins days with 0.25 in or more. Heat waves need 3 or more days at the high threshold and cold outbreaks 2 or more days at the low threshold. Dense fog needs consecutive hours at or below 1/4 mile. Ranks compare each event with others of its type in the loaded record.`))];
+    UI.page({ nav: 'storms', head, secs, title: `${meta.id} storms` });
+    const rer = () => { const y = window.scrollY; storms(); window.scrollTo({ top: y }); };
+    $$('.evtypes input').forEach((c) => c.addEventListener('change', () => { st.types = $$('.evtypes input:checked').map((x) => x.value); rer(); }));
+    $('#evSort').addEventListener('change', (e) => { st.sort = e.target.value; rer(); });
+    $('#thrGo').addEventListener('click', () => {
+      A3.EVENT_TYPES.forEach((t) => { const v = +$(`[data-thr="${t.key}"]`).value; if (!isFinite(v)) return; st.thr[t.key] = t.unit === 'T' ? (C.units().temp === 'C' ? v * 1.8 + 32 : v) : t.unit === 'P' ? (C.pU() === 'mm' ? v / 25.4 : v) : t.unit === 'S' ? v / C.cS(1) : v; });
+      rer();
+    });
+    $$('[data-ev]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); ui.state.evSel = +a.dataset.ev; storms(); const el = document.getElementById('ev-detail'); if (el) el.scrollIntoView(); }));
+  }
+
+  /* ======================= Calendar ======================= */
+  function calendar() {
+    const R = R_(), g = R.grid, meta = M_();
+    const vars = A3.CAL_VARS.filter((v) => !v.cli || g.cli), st = ui.state.cal || (ui.state.cal = { key: 'dep', year: g.dayY[lastDataDay(R)] });
+    const def = vars.find((v) => v.key === st.key) || vars[0], vals = A3.calendarValues(R, def.key);
+    const built = C3.calendarGrid(R, def, vals), fp = C3.fingerprint(R, st.year);
+    UI.reg('calGrid', () => built); UI.reg('calFp', () => fp);
+    const [lo, hi, fmt] = built.legendRange, grad = (kind, a, b) => `<div class="grad"><span>${a}</span><i style="background:linear-gradient(90deg,${[0, 0.25, 0.5, 0.75, 1].map((x) => C3.seqColor(kind, x)).join(',')})"></i><span>${b}</span></div>`;
+    const kind = def.div || def.unit === 'T' || def.unit === 'U' ? 'temp' : def.seq || 'wind';
+    const years = []; for (let y = g.y1; y >= g.y0; y--) years.push(y);
+    const head = pageHead(`Climate calendar for ${esc(meta.id)}`, 'Every day of the record on one grid, one row per year, so streaks, seasons, extremes and gaps stand out at a glance. Below it, an hour-by-hour fingerprint of any single year against the average.');
+    const body = `<div class="ctl"><label class="tsel">Variable <select id="calVar">${vars.map((v) => `<option value="${v.key}" ${v.key === def.key ? 'selected' : ''}>${v.label}</option>`).join('')}</select></label></div>`
+      + grad(kind, fmt(lo), fmt(hi)) + UI.h.figure('calGrid', `${def.label}, every day of the record`, 'Each cell is one day; click it to open that day. Blank cells have no complete record.', { height: built.height })
+      + `<h2 class="sub2">Hourly fingerprint</h2>` + prose('Each cell is one hour of the chosen year, colored by how far its temperature was from the average for that hour and date. Warm and cold spells, sea breezes and inversions show up as streaks and bands.')
+      + `<div class="ctl"><label class="tsel">Year <select id="calYear">${years.map((y) => `<option ${y === st.year ? 'selected' : ''}>${y}</option>`).join('')}</select></label></div>`
+      + grad('temp', `−${Math.round(C.cdT(fp.range))}°`, `+${Math.round(C.cdT(fp.range))}°`) + UI.h.figure('calFp', `Hourly temperature anomaly, ${st.year}`, 'Night and twilight are not shaded here so the anomaly colors read cleanly. Click a column to open that day.', { height: 340 });
+    UI.page({ nav: 'calendar', head, body, title: `${meta.id} calendar` });
+    $('#calVar').addEventListener('change', (e) => { st.key = e.target.value; calendar(); });
+    $('#calYear').addEventListener('change', (e) => { st.year = +e.target.value; const y = window.scrollY; calendar(); window.scrollTo({ top: y }); });
+  }
+
+  /* ======================= Wind resource ======================= */
+  const ALPHAS = [[0.1, 'Open water or flat, smooth land (0.10)'], [0.143, 'Open terrain, the 1/7 rule (0.14)'], [0.2, 'Crops, hedges, scattered trees (0.20)'], [0.25, 'Forest or rough, complex terrain (0.25)'], [0.3, 'Very rough or stable night-time flow (0.30)']];
+  function windres() {
+    const R = R_(), g = R.grid, meta = M_(), P = UI.place();
+    const o = ui.state.wr || (ui.state.wr = { hub: 100, anem: 10, alpha: 0.143, vr: 11.5, density: true, view: 'cf' });
+    const W = A3.windResource(R, { hub: o.hub, anem: o.anem, alpha: o.alpha, vr: o.vr, density: o.density });
+    const v = (x) => `${x.toFixed(2)} m/s`;
+    const head = pageHead(`Wind resource at ${esc(meta.id)}`, `A screening-level wind resource assessment from ${P}’s own anemometer: speed distribution and Weibull fit, power density, an estimate at hub height, gross capacity factor from a generic power curve, the 12×24 pattern, year-to-year variability, and where the energy comes from by direction.`);
+    const ctl = `<div class="ctl wrctl"><label class="tsel">Hub height <input id="wrHub" type="number" class="yr-in" value="${o.hub}"> m</label><label class="tsel">Anemometer height <input id="wrAnem" type="number" class="yr-in" value="${o.anem}"> m</label>
+      <label class="tsel">Shear exponent <select id="wrAlpha">${ALPHAS.map(([a, t]) => `<option value="${a}" ${Math.abs(a - o.alpha) < 1e-6 ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
+      <label class="tsel">Power curve <select id="wrPc">${A3.TURBINES.map((t) => `<option value="${t.vr}" ${t.vr === o.vr ? 'selected' : ''}>${t.label}</option>`).join('')}</select></label>
+      <label class="chk"><input type="checkbox" id="wrRho" ${o.density ? 'checked' : ''}> Adjust for air density</label><button type="button" class="primary" id="wrGo">Update</button></div>`;
+    const sumHtml = tiles([['Mean speed at the station', v(W.mean10), `${C.fS(W.mean10 / 0.44704)} at ${o.anem} m`], ['Weibull fit', W.weib ? `A ${W.weib.A.toFixed(2)}, k ${W.weib.k.toFixed(2)}` : '–', `calm hours ${C.fPct(W.calm, 1)} (not in the fit)`],
+      ['Power density at the station', `${W.pd10.toFixed(0)} W/m²`, `mean air density ${W.rhoMean.toFixed(3)} kg/m³`], [`Mean speed at ${o.hub} m`, v(W.meanHub), `×${W.f.toFixed(2)} from the shear exponent`],
+      [`Power density at ${o.hub} m`, `${W.pdHub.toFixed(0)} W/m²`, ''], ['Gross capacity factor', C.fPct(W.cf, 1), `no losses; ${C.fPct(W.below3, 0)} of hours below cut-in`],
+      ['Year-to-year variability', isNaN(W.cov) ? '–' : `${(W.cov * 100).toFixed(1)}%`, `coefficient of variation of annual CF over ${W.nFull} complete years`]]);
+    UI.reg('wrHist', () => C3.windHist(W)); UI.reg('wrMon', () => C3.windMonthly(W)); UI.reg('wr12', () => C3.wind12x24(W, o.view === 'speed' ? 'speed' : 'cf'));
+    UI.reg('wrYears', () => C3.windYears(W)); UI.reg('wrRose', () => C3.windRoseEnergy(W)); UI.reg('wrPc', () => C3.powerCurveChart(W));
+    const toggle = `<label class="tsel">Show <select id="wr12v"><option value="cf" ${o.view !== 'speed' ? 'selected' : ''}>Capacity factor</option><option value="speed" ${o.view === 'speed' ? 'selected' : ''}>Hub-height speed</option></select></label>`;
+    const secs = [
+      sec('wr-sum', 'Summary', 'Summary', ctl + sumHtml + prose('<p class="caveat">This is a screening tool, not an energy assessment. Airport anemometers sit about 10 m up, often in sheltered or very open spots unlike a wind farm, and each METAR wind is a 2-minute average near the top of the hour reported in whole knots. Hub-height speeds use a single assumed shear exponent and the generic power curve has no wake, availability, electrical or other losses. It is most useful for comparing seasons, hours and directions, and as a check on long-term reference behaviour.</p>')),
+      sec('wr-dist', 'Distribution', 'Speed distribution', UI.h.figure('wrHist', 'Wind speed distribution at the station', 'Share of hourly reports in each 1 m/s bin, with the Weibull fit (fitted to non-calm hours by maximum likelihood).', { height: 300 })),
+      sec('wr-season', 'Seasons and hours', 'Seasons and hours', UI.h.figure('wrMon', 'Monthly mean speed and gross capacity factor', 'Hover for the station speed, Weibull shape and power density by month.', { height: 300 })
+        + UI.h.figure('wr12', '12×24 pattern', 'Each cell is the average for that month and local hour.', { height: 330, tools: toggle })),
+      sec('wr-years', 'Year to year', 'Year to year', UI.h.figure('wrYears', 'Gross capacity factor by year', 'Bars are each year’s gross capacity factor (gray when less than 85% of hours were reported); the line is the mean hub-height speed. Dashed lines show the mean and one standard deviation either side.', { height: 300 })),
+      sec('wr-dir', 'Direction', 'Direction and energy', UI.h.figure('wrRose', 'Share of hours and energy by direction', 'Where the wind blows from most often (gray) and where most of the energy comes from (orange).', { height: 380 })),
+      sec('wr-pc', 'Power curve', 'Power curve and export', UI.h.figure('wrPc', 'Generic power curve', 'Normalized output: cut-in 3 m/s, rated as chosen, cut-out 25 m/s.', { height: 220 })
+        + prose('Download the hourly record in a tab-delimited layout that Windographer can import (time stamp, speed and direction at the anemometer, gust, temperature, pressure and air density).') + '<p><button type="button" class="primary" id="wrExport">Download for Windographer</button></p>')];
+    UI.page({ nav: 'windres', head, secs, title: `${meta.id} wind resource` });
+    $('#wrGo').addEventListener('click', () => { Object.assign(o, { hub: Math.max(10, +$('#wrHub').value || 100), anem: Math.max(2, +$('#wrAnem').value || 10), alpha: +$('#wrAlpha').value, vr: +$('#wrPc').value, density: $('#wrRho').checked }); const y = window.scrollY; windres(); window.scrollTo({ top: y }); });
+    $('#wr12v').addEventListener('change', (e) => { o.view = e.target.value; UI.reg('wr12', () => C3.wind12x24(W, o.view === 'speed' ? 'speed' : 'cf')); UI.redrawFigure('wr12'); });
+    $('#wrExport').addEventListener('click', () => {
+      const lines = ['Date/Time\tSpeed ' + o.anem + 'm [m/s]\tDirection ' + o.anem + 'm [deg]\tGust ' + o.anem + 'm [m/s]\tTemperature [C]\tPressure [mb]\tDensity [kg/m3]'];
+      const f = (x, d) => (x == null || isNaN(x) ? '' : (+x).toFixed(d)), elevF = Math.pow((288 - 0.0065 * (isFinite(meta.elevM) ? meta.elevM : 0)) / 288, 5.2561);
+      for (let h = 0; h < g.nH; h++) {
+        if (isNaN(g.W[h])) continue; const d = (h / 24) | 0, gg = A3.gustAt(g, h);
+        lines.push([`${A2.ymd(g, d)} ${String(h % 24).padStart(2, '0')}:00`, f(g.W[h] * 0.44704, 2), f(g.D[h], 0), f(gg * 0.44704, 2), f((g.T[h] - 32) / 1.8, 1), f(g.A[h] * 33.8639 * elevF, 1), f(g.RHO[h], 4)].join('\t'));
+      }
+      UI.download(`${meta.id}_${g.y0}-${g.y1}_windographer.txt`, new Blob([lines.join('\r\n')], { type: 'text/plain' }));
+    });
+  }
+
+  /* ======================= Work windows ======================= */
+  function work() {
+    const R = R_(), g = R.grid, meta = M_(), P = UI.place();
+    const st = ui.state.wk || (ui.state.wk = { ...A3.PRESETS[0], preset: 'blade', alpha: 0.143, start: [3, 1], need: 20 });
+    const crit = { height: st.height, alpha: st.alpha, wind: st.wind, gust: st.gust, precip: st.precip, lightning: st.lightning, tmin: st.tmin, tmax: st.tmax, vis: st.vis, ceil: st.ceil, daylight: st.daylight, h0: st.h0, h1: st.h1, window: st.window };
+    const wk = A3.workability(R, crit), sch = A3.schedule(R, wk, st.start[0], st.start[1], st.need);
+    sch.runs.forEach((r) => (r.endLabel = shortDate(g, r.end)));
+    const sp = (x) => +C.cS(x).toFixed(0), tp = (x) => +C.cT(x).toFixed(0);
+    const yearDays = wk.monthly.reduce((a, m) => a + (m.p50 || 0), 0), best = C.argmax(wk.monthly.map((m) => m.p50)), worst = C.argmin(wk.monthly.map((m) => m.p50));
+    const startLabel = `${C.MONTHS[st.start[0]]} ${st.start[1]}`;
+    const finish = (days) => { if (isNaN(days)) return '–'; const t = new Date(Date.UTC(2001, st.start[0], st.start[1] + Math.round(days) - 1)); return `${C.MON[t.getUTCMonth()]} ${t.getUTCDate()}`; };
+    const head = pageHead(`Work windows at ${esc(meta.id)}`, `How often the weather at ${P} allows a given job, by month and hour, what usually stops work, and how long a campaign that needs a set number of good days takes when started on a given date. Each of the ${R.period[1] - R.period[0] + 1} years of the record is replayed in turn.`);
+    const num = (id, val, step = 'any') => `<input id="${id}" type="number" step="${step}" class="yr-in" value="${val}">`;
+    const ctl = `<div class="ctl wkctl"><label class="tsel">Preset <select id="wkPreset">${A3.PRESETS.map((p) => `<option value="${p.key}" ${p.key === st.preset ? 'selected' : ''}>${p.label}</option>`).join('')}<option value="custom" ${st.preset === 'custom' ? 'selected' : ''}>Custom</option></select></label></div>
+      <div class="ctl wkctl"><label class="tsel">Work height ${num('wkH', st.height)} m</label><label class="tsel">Shear exponent ${num('wkA', st.alpha)}</label>
+        <label class="tsel">Max sustained ${num('wkW', sp(st.wind))} ${C.sU()}</label><label class="tsel">Max gust ${num('wkG', sp(st.gust))} ${C.sU()}</label>
+        <label class="tsel">Temperature ${num('wkT0', tp(st.tmin))} to ${num('wkT1', tp(st.tmax))} ${C.tU()}</label><label class="tsel">Min visibility ${num('wkV', st.vis)} mi</label><label class="tsel">Min ceiling ${num('wkC', st.ceil)} ft</label>
+        <label class="tsel">Work hours ${num('wkh0', st.h0, 1)} to ${num('wkh1', st.h1, 1)}</label><label class="tsel">Window needed ${num('wkWin', st.window, 1)} h</label>
+        <label class="chk"><input type="checkbox" id="wkP" ${st.precip ? '' : 'checked'}> Stop for precipitation</label><label class="chk"><input type="checkbox" id="wkL" ${st.lightning ? 'checked' : ''}> Stop for thunder</label><label class="chk"><input type="checkbox" id="wkD" ${st.daylight ? 'checked' : ''}> Daylight only</label>
+        <button type="button" class="primary" id="wkGo">Update</button></div>`;
+    UI.reg('wkHeat', () => C3.workHeat(R, wk)); UI.reg('wkMon', () => C3.workMonthly(wk)); UI.reg('wkFail', () => C3.workFail(wk));
+    UI.reg('wkSched', () => C3.schedulePlot(sch, st.need, startLabel));
+    const secs = [
+      sec('wk-set', 'Criteria', 'Criteria', ctl + prose(`Winds and gusts are scaled from the ${R.meta.anemH || 10} m anemometer to the work height with the shear exponent (×${wk.f.toFixed(2)}). A day counts as workable when it has at least one unbroken ${st.window}-hour window inside the work hours that meets every limit. Hours without a report are left out rather than counted as good or bad.`)
+        + tiles([['Workable days in a typical year', Math.round(yearDays), 'sum of the monthly medians'], ['Best month', C.MONTHS[best], `${(wk.monthly[best].p50 || 0).toFixed(0)} workable days`], ['Worst month', C.MONTHS[worst], `${(wk.monthly[worst].p50 || 0).toFixed(0)} workable days`],
+          ['Campaign finish, typical year', finish(sch.p50), `${st.need} workable days from ${startLabel}`], ['Campaign finish, 1 year in 10', finish(sch.p90), `P90 of ${sch.runs.length} historical starts`]])),
+      sec('wk-heat', 'When', 'When the weather allows the work', UI.h.figure('wkHeat', 'Share of years each hour is workable', 'Green where the hour usually meets every limit; pale where it rarely does. Night shading and sunrise and sunset lines are drawn for reference.', { height: 360 })),
+      sec('wk-mon', 'By month', 'Workable days by month', UI.h.figure('wkMon', 'Workable days per month', 'Bars are the median year; whiskers run from a bad year to a good one (the 10th to 90th percentile of years).', { height: 300 })
+        + UI.h.figure('wkFail', 'What stops the work', 'Share of working hours that fail each limit (an hour can fail several at once).', { height: 300 })),
+      sec('wk-sched', 'Schedule', 'Campaign schedule', `<div class="ctl"><label class="tsel">Start <select id="wkSm">${C.MONTHS.map((m, i) => `<option value="${i}" ${i === st.start[0] ? 'selected' : ''}>${m}</option>`).join('')}</select> ${num('wkSd', st.start[1], 1)}</label><label class="tsel">Workable days needed ${num('wkNeed', st.need, 1)}</label><button type="button" class="tbtn" id="wkSchGo">Simulate</button></div>`
+        + prose(sch.runs.length ? `Starting on ${startLabel} and needing ${st.need} workable days, the campaign took ${em(`${Math.round(sch.p50)} calendar days`)} in a typical year (finishing about ${finish(sch.p50)}), ${em(`${Math.round(sch.p80)}`)} at P80 and ${em(`${Math.round(sch.p90)}`)} at P90 (about ${finish(sch.p90)}), ranging from ${sch.min} to ${sch.max} days across ${sch.runs.length} historical years.` : 'Not enough complete years to simulate this start.')
+        + UI.h.figure('wkSched', 'Workable days accumulated after the start, each historical year', 'Each line replays one year of the record from the start date; where it crosses the dashed line is when the campaign would have finished.', { height: 330 })),
+      sec('wk-notes', 'Notes', 'Notes', prose('<p class="caveat">Presets are starting points, not lift plans: crane and component limits come from the crane manufacturer, the turbine supplier’s installation manual and the site lift plan, usually as 10-minute mean and 3-second gust speeds at the hook or hub. METAR winds are 2-minute averages near the top of the hour and gusts are reported only when they are significant, so an hour without a gust report is judged on the sustained wind alone.</p>'))];
+    UI.page({ nav: 'work', head, secs, title: `${meta.id} work windows` });
+    const read = () => ({ height: +$('#wkH').value, alpha: +$('#wkA').value, wind: +$('#wkW').value / C.cS(1), gust: +$('#wkG').value / C.cS(1), tmin: C.units().temp === 'C' ? +$('#wkT0').value * 1.8 + 32 : +$('#wkT0').value, tmax: C.units().temp === 'C' ? +$('#wkT1').value * 1.8 + 32 : +$('#wkT1').value,
+      vis: +$('#wkV').value, ceil: +$('#wkC').value, h0: Math.max(0, Math.min(23, +$('#wkh0').value)), h1: Math.max(1, Math.min(24, +$('#wkh1').value)), window: Math.max(1, +$('#wkWin').value), precip: !$('#wkP').checked, lightning: $('#wkL').checked, daylight: $('#wkD').checked });
+    const rer = () => { const y = window.scrollY; work(); window.scrollTo({ top: y }); };
+    $('#wkPreset').addEventListener('change', (e) => { const p = A3.PRESETS.find((x) => x.key === e.target.value); if (p) Object.assign(st, p, { preset: p.key }); else st.preset = 'custom'; rer(); });
+    $('#wkGo').addEventListener('click', () => { Object.assign(st, read(), { preset: 'custom' }); rer(); });
+    $('#wkSchGo').addEventListener('click', () => { st.start = [+$('#wkSm').value, Math.max(1, Math.min(C.MDAYS[+$('#wkSm').value], +$('#wkSd').value))]; st.need = Math.max(1, +$('#wkNeed').value); rer(); });
+  }
+
+  return { now, storms, calendar, windres, work, state: ui.state };
 })();
 
 /* ---------------------------------------------------------------------------
@@ -5591,20 +6422,54 @@ const UI = (() => {
   function go(hash) { if (location.hash === hash) route(); else location.hash = hash; }
   function reg(key, fn) { state.figBuilders.set(key, fn); }
   function stationNav(active) {
-    const m = state.meta, R = state.R, [a, b] = R.period, here = (r) => (active === r ? ' class="on" aria-current="page"' : '');
+    const m = state.meta, R = state.R, [a, b] = R.period, on = (r) => (active === r ? ' class="on" aria-current="page"' : '');
     const yrs = []; for (let y = b; y >= a; y--) yrs.push(y);
-    const hy = active && active.startsWith('h/') ? +active.split('/')[1] : null;
+    const grp = (label, keys, inner) => `<details class="nav-g${keys.some((k) => active === k || (active && active.startsWith(k + '/'))) ? ' cur' : ''}"><summary>${label}</summary><div class="nav-p">${inner}</div></details>`;
+    const L = (r, t) => `<a href="${link(r)}"${on(r)}>${t}</a>`;
     return `<nav class="snav" aria-label="Station pages">
-      <div class="snav-id"><a href="${link('y')}" class="snav-code">${C.esc(m.id)}</a><span class="snav-name">${C.esc(m.name || '')}</span><span class="snav-period">${a} to ${b}</span></div>
+      <div class="snav-id"><a href="${link('now')}" class="snav-code">${C.esc(m.id)}</a><span class="snav-name">${C.esc(m.name || '')}</span><span class="snav-period">${a} to ${b}</span>
+        <button type="button" class="linkbtn jump" data-palette>Jump to… <kbd>/</kbd></button></div>
       <div class="snav-tabs">
-        <a href="${link('y')}"${here('y')}>Climate</a>
-        <span class="snav-group"><span class="snav-k">Months</span>${C.MON.map((mn, i) => `<a href="${link(`m/${i + 1}`)}"${here(`m/${i + 1}`)}>${mn}</a>`).join('')}</span>
-        <span class="snav-group"><span class="snav-k">History</span><select data-nav aria-label="History year"><option value="">Year</option>${yrs.map((y) => `<option value="${link(`h/${y}`)}" ${hy === y ? 'selected' : ''}>${y}</option>`).join('')}</select></span>
-        <a href="${link('graphs')}"${here('graphs')}>Climate graphs</a><a href="${link('tables')}"${here('tables')}>Monthly tables</a>
-        <a href="${link('records')}"${here('records')}>Records</a><a href="${link('trends')}"${here('trends')}>Trends</a><a href="${link('quality')}"${here('quality')}>Data quality</a>
-        <a href="${link('events')}"${here('events')}>Events</a><a href="${link('explore')}"${here('explore')}>Explore</a><a href="${link('wind1min')}"${here('wind1min')}>1-minute wind</a>
-        <a href="${compareLink([m.id])}"${here('compare')}>Compare</a>
+        ${L('now', 'Now')}${L('y', 'Climate')}
+        ${grp('Months', C.MON.map((_, i) => `m/${i + 1}`), `<div class="nav-months">${C.MON.map((mn, i) => L(`m/${i + 1}`, mn)).join('')}</div>`)}
+        ${grp('History', ['h', 'records', 'storms', 'calendar', 'graphs', 'tables'], `${L('graphs', 'Climate graphs')}${L('tables', 'Monthly tables')}${L('records', 'Records and extremes')}${L('storms', 'Storm catalog')}${L('calendar', 'Climate calendar')}<div class="nav-years"><span class="snav-k">Year</span>${yrs.map((y) => L(`h/${y}`, String(y))).join('')}</div>`)}
+        ${grp('Analysis', ['trends', 'explore', 'events', 'quality', 'wind1min'], `${L('trends', 'Trends')}${L('explore', 'Explore conditions')}${L('events', 'Event finder')}${L('quality', 'Data quality')}${L('wind1min', '1-minute wind')}`)}
+        ${grp('Applications', ['windres', 'work'], `${L('windres', 'Wind resource')}${L('work', 'Work windows')}`)}
+        <a href="${compareLink([m.id])}"${on('compare')}>Compare</a>
       </div></nav>`;
+  }
+  /* ---------- command palette ---------- */
+  function paletteItems(q) {
+    const items = [], m = state.meta, R = state.R; q = q.trim();
+    const pages = [['now', 'Now: live conditions and forecast'], ['y', 'Climate: year round'], ['graphs', 'Climate graphs'], ['tables', 'Monthly tables'], ['records', 'Records and extremes'], ['storms', 'Storm catalog'],
+      ['calendar', 'Climate calendar'], ['trends', 'Trends'], ['explore', 'Explore conditions'], ['events', 'Event finder'], ['quality', 'Data quality'], ['wind1min', '1-minute wind'], ['windres', 'Wind resource'], ['work', 'Work windows']];
+    if (m && R) {
+      pages.forEach(([r, t]) => items.push({ t, sub: m.id, go: link(r) }));
+      C.MONTHS.forEach((mn, i) => items.push({ t: `${mn} climate`, sub: m.id, go: link(`m/${i + 1}`) }));
+      // dates: 2024, Jan 2024, 2024-01-15, Jan 15 2024, 1/15/2024
+      let x;
+      const mi = (s2) => C.MONTHS.findIndex((mn) => mn.toLowerCase().startsWith(s2.toLowerCase().slice(0, 3)));
+      if ((x = q.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)) || (x = q.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/))) {
+        const [y, mo, d] = x[0].includes('/') ? [+x[3], +x[1], +x[2]] : [+x[1], +x[2], +x[3]];
+        items.unshift({ t: `${C.MONTHS[mo - 1] || '?'} ${d}, ${y}`, sub: 'Day history', go: link(`h/${y}/${mo}/${d}`) });
+      } else if ((x = q.match(/^([a-z]{3,9})\.?\s+(\d{1,2}),?\s+(\d{4})$/i)) && mi(x[1]) >= 0) items.unshift({ t: `${C.MONTHS[mi(x[1])]} ${+x[2]}, ${x[3]}`, sub: 'Day history', go: link(`h/${x[3]}/${mi(x[1]) + 1}/${+x[2]}`) });
+      else if ((x = q.match(/^([a-z]{3,9})\.?\s+(\d{4})$/i)) && mi(x[1]) >= 0) items.unshift({ t: `${C.MONTHS[mi(x[1])]} ${x[2]}`, sub: 'Month history', go: link(`h/${x[2]}/${mi(x[1]) + 1}`) });
+      else if ((x = q.match(/^(\d{4})$/))) items.unshift({ t: `${x[1]}`, sub: 'Year history', go: link(`h/${x[1]}`) });
+      if ((x = q.match(/^(?:compare\s+|vs\s+)([a-z0-9]{3,4})$/i))) items.unshift({ t: `Compare ${m.id} with ${Data.classifyId(x[1]).id}`, sub: 'Comparison', go: compareLink([m.id, Data.classifyId(x[1]).id]) });
+    }
+    if (/^[a-z0-9]{3,4}$/i.test(q) && Data.classifyId(q).kind === 'metar') { const id = Data.classifyId(q).id; items.unshift({ t: `Open ${id}`, sub: 'Station', go: link('now', id) }); }
+    const ql = q.toLowerCase();
+    const words = ql.split(/\s+/).filter(Boolean), fits = (txt) => words.every((w) => txt.includes(w) || txt.includes(w.replace(/(es|s)$/, '')));
+    return (ql ? items.filter((it) => ['Day history', 'Month history', 'Year history', 'Station', 'Comparison'].includes(it.sub) || fits(`${it.t} ${it.sub}`.toLowerCase())) : items).slice(0, 12);
+  }
+  function openPalette() {
+    const box = $('#palette'); if (!box) return;
+    box.hidden = false; const inp = $('#palIn'); inp.value = ''; renderPalette(''); inp.focus();
+  }
+  function closePalette() { const box = $('#palette'); if (box) box.hidden = true; }
+  function renderPalette(q) {
+    const list = paletteItems(q);
+    $('#palList').innerHTML = list.length ? list.map((it, i) => `<li><a href="${it.go}" class="${i === 0 ? 'sel' : ''}"><span>${C.esc(it.t)}</span><small>${C.esc(it.sub)}</small></a></li>`).join('') : '<li class="muted">Try a page name, a date like 2024-01-15 or Jan 2024, a station ID, or “compare KBOS”.</li>';
   }
   function mountFigures(root) {
     if (state.observer) state.observer.disconnect();
@@ -5709,6 +6574,7 @@ const UI = (() => {
         else if (r.page === 'h' && a.length === 1) Pages.historyYear(a[0]);
         else if (r.page === 'h' && a.length === 2) Pages.historyMonth(a[0], a[1] - 1);
         else if (r.page === 'h' && a.length === 3) Pages.historyDay(a[0], a[1] - 1, a[2]);
+        else if (Pages3[r.page]) Pages3[r.page]();
         else if (Pages[r.page]) Pages[r.page]();
         else renderYear();
       }
@@ -5898,10 +6764,19 @@ const UI = (() => {
       e.preventDefault();
       const id = Data.classifyId($('#sid').value).id, r = state.route, a = +$('#y0').value, b = +$('#y1').value;
       // keep the current page type when only the period changes
-      const pageRoute = r && r.kind === 'station' && r.id === id ? [r.page, ...r.args].join('/') : 'y';
+      const pageRoute = r && r.kind === 'station' && r.id === id ? [r.page, ...r.args].join('/') : 'now';
       go(link(pageRoute, id, [a, b]));
     });
-    window.addEventListener('hashchange', () => route());
+    window.addEventListener('hashchange', () => { closePalette(); route(); });
+    document.addEventListener('keydown', (e) => {
+      const typing = /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName);
+      if ((e.key === '/' && !typing) || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) { if (state.meta) { e.preventDefault(); openPalette(); } }
+      else if (e.key === 'Escape' && !$('#palette').hidden) closePalette();
+    });
+    $('#palIn').addEventListener('input', (e) => renderPalette(e.target.value));
+    $('#palIn').addEventListener('keydown', (e) => { if (e.key === 'Enter') { const a = $('#palList a'); if (a) { e.preventDefault(); go(a.getAttribute('href')); } } });
+    $('#palette').addEventListener('click', (e) => { if (e.target.id === 'palette') closePalette(); });
+    document.addEventListener('click', (e) => { if (e.target.closest('[data-palette]')) { e.preventDefault(); openPalette(); } const d = e.target.closest('.nav-p a'); if (d) { const det = d.closest('details'); if (det) det.open = false; } });
     document.addEventListener('change', (e) => { if (e.target.matches('select[data-nav]') && e.target.value) go(e.target.value); });
     $('#sid').addEventListener('input', (e) => { $('#sidHint').textContent = ''; void e; });
     document.addEventListener('click', (e) => {
@@ -5942,7 +6817,7 @@ const UI = (() => {
     route();
   }
 
-  return { init, state, openDetail, renderReport, rerender, page, reg, link, compareLink, go, dayHash, toast, download, place, route, ensureStation, stationNav, redrawFigure, mount,
+  return { init, state, openDetail, renderReport, rerender, page, reg, link, compareLink, go, dayHash, toast, download, place, route, ensureStation, stationNav, redrawFigure, mount, openPalette,
     h: { figure, monthTable, spanCard, em, strip, scaleLegend, M } };
 })();
 
